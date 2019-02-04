@@ -1,0 +1,33 @@
+{
+  "connection": "default",
+  "collectionName": "",
+  "info": {
+    "name": "transaction",
+    "description": ""
+  },
+  "options": {
+    "timestamps": true
+  },
+  "attributes": {
+    "stripe_id": {
+      "default": "",
+      "type": "string"
+    },
+    "initiated_at": {
+      "default": "",
+      "type": "date"
+    },
+    "completed_at": {
+      "default": "",
+      "type": "date"
+    },
+    "meta": {
+      "default": "",
+      "type": "text"
+    },
+    "sponsorship": {
+      "model": "sponsorship",
+      "via": "transactions"
+    }
+  }
+}

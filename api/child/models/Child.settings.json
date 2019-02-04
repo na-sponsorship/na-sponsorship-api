@@ -1,0 +1,59 @@
+{
+  "connection": "default",
+  "collectionName": "child",
+  "info": {
+    "name": "child",
+    "description": "A child that is in the sponsorship program"
+  },
+  "options": {
+    "timestamps": true
+  },
+  "attributes": {
+    "picture": {
+      "model": "file",
+      "via": "related",
+      "plugin": "upload",
+      "required": true
+    },
+    "First Name": {
+      "default": "",
+      "type": "string",
+      "required": true
+    },
+    "Last Name": {
+      "default": "",
+      "type": "string",
+      "required": true
+    },
+    "Gender": {
+      "default": "",
+      "type": "enumeration",
+      "enum": [
+        "Male",
+        "Female"
+      ]
+    },
+    "Story": {
+      "default": "",
+      "type": "text",
+      "required": true
+    },
+    "isSponsored": {
+      "default": false,
+      "type": "boolean",
+      "required": true
+    },
+    "sponsorship": {
+      "model": "sponsorship",
+      "via": "children"
+    },
+    "Grade": {
+      "default": "",
+      "type": "string"
+    },
+    "Date Of Birth": {
+      "default": "",
+      "type": "date"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/transactions",
+      "handler": "Transaction.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/transactions/count",
+      "handler": "Transaction.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/transactions/:_id",
+      "handler": "Transaction.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/transactions",
+      "handler": "Transaction.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/transactions/:_id",
+      "handler": "Transaction.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/transactions/:_id",
+      "handler": "Transaction.destroy",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

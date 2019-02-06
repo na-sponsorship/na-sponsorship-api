@@ -13,7 +13,7 @@
       "model": "file",
       "via": "related",
       "plugin": "upload",
-      "required": true
+      "required": false
     },
     "First Name": {
       "default": "",
@@ -26,12 +26,13 @@
       "required": true
     },
     "Gender": {
-      "default": "",
+      "default": "Male",
       "type": "enumeration",
       "enum": [
         "Male",
         "Female"
-      ]
+      ],
+      "required": true
     },
     "Story": {
       "default": "",
@@ -40,8 +41,7 @@
     },
     "isSponsored": {
       "default": false,
-      "type": "boolean",
-      "required": true
+      "type": "boolean"
     },
     "sponsorship": {
       "model": "sponsorship",

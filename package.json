@@ -20,8 +20,8 @@
   },
   "dependencies": {
     "lodash": "^4.17.5",
-    "strapi": "^3.0.0-alpha.22",
-    "strapi-hook-mongoose": "3.0.0-alpha.22"
+    "strapi": "3.0.0-alpha.24.1",
+    "strapi-hook-mongoose": "3.0.0-alpha.24.1"
   },
   "author": {
     "name": "sysop",

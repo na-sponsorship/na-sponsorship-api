@@ -21,7 +21,8 @@
   "dependencies": {
     "lodash": "^4.17.5",
     "strapi": "3.0.0-alpha.24.1",
-    "strapi-hook-mongoose": "3.0.0-alpha.24.1"
+    "strapi-hook-mongoose": "3.0.0-alpha.24.1",
+    "strapi-provider-upload-cloudinary": "^3.0.0-alpha.15"
   },
   "author": {
     "name": "sysop",

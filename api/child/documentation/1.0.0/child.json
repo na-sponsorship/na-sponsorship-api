@@ -163,6 +163,26 @@
               "type": "string"
             },
             "deprecated": false
+          },
+          {
+            "name": "_in",
+            "in": "query",
+            "required": false,
+            "description": "Get records that matches any value in the array of values",
+            "schema": {
+              "type": "array"
+            },
+            "deprecated": false
+          },
+          {
+            "name": "_nin",
+            "in": "query",
+            "required": false,
+            "description": "Get records that doesn't match any value in the array of values",
+            "schema": {
+              "type": "array"
+            },
+            "deprecated": false
           }
         ]
       },
@@ -491,11 +511,10 @@
       "Child": {
         "required": [
           "id",
-          "picture",
           "First Name",
           "Last Name",
-          "Story",
-          "isSponsored"
+          "Gender",
+          "Story"
         ],
         "properties": {
           "id": {
@@ -557,7 +576,7 @@
           },
           "Gender": {
             "type": "string",
-            "default": "",
+            "default": "Male",
             "enum": [
               "Male",
               "Female"
@@ -613,8 +632,8 @@
         "required": [
           "First Name",
           "Last Name",
-          "Story",
-          "isSponsored"
+          "Gender",
+          "Story"
         ],
         "properties": {
           "First Name": {
@@ -627,7 +646,7 @@
           },
           "Gender": {
             "type": "string",
-            "default": "",
+            "default": "Male",
             "enum": [
               "Male",
               "Female"

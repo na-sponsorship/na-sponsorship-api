@@ -526,7 +526,8 @@
               "First Name",
               "Last Name",
               "Gender",
-              "Story"
+              "Story",
+              "Necessary Sponsors"
             ],
             "properties": {
               "id": {
@@ -547,9 +548,6 @@
               "Story": {
                 "type": "string"
               },
-              "isSponsored": {
-                "type": "boolean"
-              },
               "sponsorship": {
                 "type": "string"
               },
@@ -558,6 +556,12 @@
               },
               "Date Of Birth": {
                 "type": "string"
+              },
+              "Necessary Sponsors": {
+                "type": "integer"
+              },
+              "Current Number Of Sponsors ": {
+                "type": "integer"
               }
             }
           },

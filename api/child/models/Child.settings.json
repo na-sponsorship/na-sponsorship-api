@@ -39,10 +39,6 @@
       "type": "text",
       "required": true
     },
-    "isSponsored": {
-      "default": false,
-      "type": "boolean"
-    },
     "sponsorship": {
       "model": "sponsorship",
       "via": "children"
@@ -54,6 +50,16 @@
     "Date Of Birth": {
       "default": "",
       "type": "date"
+    },
+    "Necessary Sponsors": {
+      "default": 2,
+      "min": 1,
+      "type": "integer",
+      "required": true
+    },
+    "Current Number Of Sponsors ": {
+      "default": 0,
+      "type": "integer"
     }
   }
 }

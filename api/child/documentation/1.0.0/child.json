@@ -514,7 +514,8 @@
           "First Name",
           "Last Name",
           "Gender",
-          "Story"
+          "Story",
+          "Necessary Sponsors"
         ],
         "properties": {
           "id": {
@@ -586,10 +587,6 @@
             "type": "string",
             "default": ""
           },
-          "isSponsored": {
-            "type": "boolean",
-            "default": false
-          },
           "sponsorship": {
             "required": [
               "id"
@@ -625,6 +622,14 @@
           "Date Of Birth": {
             "type": "string",
             "default": ""
+          },
+          "Necessary Sponsors": {
+            "type": "integer",
+            "default": 2
+          },
+          "Current Number Of Sponsors ": {
+            "type": "integer",
+            "default": 0
           }
         }
       },
@@ -633,7 +638,8 @@
           "First Name",
           "Last Name",
           "Gender",
-          "Story"
+          "Story",
+          "Necessary Sponsors"
         ],
         "properties": {
           "First Name": {
@@ -656,10 +662,6 @@
             "type": "string",
             "default": ""
           },
-          "isSponsored": {
-            "type": "boolean",
-            "default": false
-          },
           "sponsorship": {
             "type": "string"
           },
@@ -670,6 +672,14 @@
           "Date Of Birth": {
             "type": "string",
             "default": ""
+          },
+          "Necessary Sponsors": {
+            "type": "integer",
+            "default": 2
+          },
+          "Current Number Of Sponsors ": {
+            "type": "integer",
+            "default": 0
           }
         }
       }

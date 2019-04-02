@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "na-sponsorship-api",
   "private": true,
   "version": "0.1.0",
   "description": "A Strapi application.",
@@ -20,25 +20,27 @@
   },
   "dependencies": {
     "lodash": "^4.17.5",
-    "strapi": "3.0.0-alpha.24.1",
-    "strapi-hook-mongoose": "3.0.0-alpha.24.1",
-    "strapi-provider-upload-cloudinary": "^3.0.0-alpha.15"
+    "strapi": "3.0.0-alpha.25.2",
+    "strapi-hook-bookshelf": "3.0.0-alpha.25.2",
+    "strapi-hook-knex": "3.0.0-alpha.25.2",
+    "knex": "latest",
+    "mysql": "2.16.0"
   },
   "author": {
-    "name": "sysop",
+    "name": "davidhevesi",
     "email": "",
     "url": ""
   },
   "maintainers": [
     {
-      "name": "sysop",
+      "name": "davidhevesi",
       "email": "",
       "url": ""
     }
   ],
   "strapi": {
     "packageManager": "npm",
-    "uuid": "852395fc-39fb-43d3-9136-d4936a5d3adf"
+    "uuid": "5ef169c5-6627-4c86-9660-b5d49ad2afea"
   },
   "engines": {
     "node": ">= 10.0.0",

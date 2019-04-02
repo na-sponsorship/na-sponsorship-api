@@ -1,3 +1,3 @@
-# server
+# na-sponsorship-api
 
-A quick description of server.
+A quick description of na-sponsorship-api.

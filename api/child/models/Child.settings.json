@@ -1,0 +1,61 @@
+{
+  "connection": "default",
+  "collectionName": "",
+  "info": {
+    "name": "child",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "firstName": {
+      "default": "",
+      "type": "string"
+    },
+    "lastName": {
+      "default": "",
+      "type": "string"
+    },
+    "age": {
+      "default": "",
+      "type": "integer"
+    },
+    "dateOfBirth": {
+      "default": "",
+      "type": "date"
+    },
+    "grade": {
+      "default": "",
+      "type": "string"
+    },
+    "gender": {
+      "default": "",
+      "type": "enumeration",
+      "enum": [
+        "male",
+        "female"
+      ]
+    },
+    "picture": {
+      "model": "file",
+      "via": "related",
+      "plugin": "upload",
+      "required": false
+    },
+    "descrition": {
+      "default": "",
+      "type": "text"
+    },
+    "sponsorsNeeded": {
+      "default": "",
+      "type": "integer"
+    },
+    "activeSponsors": {
+      "default": "",
+      "type": "integer"
+    }
+  }
+}

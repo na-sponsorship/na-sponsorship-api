@@ -1,6 +1,6 @@
 {
   "connection": "default",
-  "collectionName": "",
+  "collectionName": "child",
   "info": {
     "name": "child",
     "description": ""
@@ -18,10 +18,6 @@
     "lastName": {
       "default": "",
       "type": "string"
-    },
-    "age": {
-      "default": "",
-      "type": "integer"
     },
     "dateOfBirth": {
       "default": "",

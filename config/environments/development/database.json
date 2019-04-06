@@ -4,13 +4,13 @@
     "default": {
       "connector": "strapi-hook-bookshelf",
       "settings": {
-        "client": "mysql",
-        "host": "zj2x67aktl2o6q2n.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-        "port": "3306",
-        "database": "epmc0xsy5mr3ewic",
-        "username": "ol5jhza3jiqwnzo0",
-        "password": "ew62l43b2nqh9c5r",
-        "ssl": true
+        "client": "pg",
+        "host": "database",
+        "port": "5432",
+        "database": "noahsarc",
+        "username": "user",
+        "password": "secret",
+        "ssl": false
       },
       "options": {}
     }

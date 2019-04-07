@@ -52,10 +52,6 @@
     "activeSponsors": {
       "default": "",
       "type": "integer"
-    },
-    "extra_field": {
-      "default": "",
-      "type": "string"
     }
   }
 }

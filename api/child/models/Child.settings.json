@@ -41,7 +41,7 @@
       "plugin": "upload",
       "required": false
     },
-    "descrition": {
+    "story": {
       "default": "",
       "type": "text"
     },

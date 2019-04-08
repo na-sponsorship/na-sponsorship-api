@@ -1,6 +1,16 @@
 FROM node:11 as api
-WORKDIR /api
-COPY . /api
+
+# Create and define the node_modules's cache directory.
+RUN mkdir -p /usr/api/cache
+WORKDIR /usr/api/cache
+
+# Install the application's dependencies into the node_modules's cache directory.
+COPY package.json ./
+COPY yarn.lock ./
 RUN yarn
 
-CMD ["yarn", "start:dev"]
+
+RUN mkdir -p /usr/api/app
+WORKDIR /usr/api/app
+
+RUN yarn

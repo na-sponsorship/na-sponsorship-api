@@ -10,6 +10,14 @@
     },
     {
       "method": "GET",
+      "path": "/children/needingSponsorship",
+      "handler": "Child.needingSponsorship",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/children/count",
       "handler": "Child.count",
       "config": {

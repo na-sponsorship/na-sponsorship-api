@@ -32,11 +32,10 @@ module.exports = {
     return strapi.services.child.fetch(ctx.params);
   },
 
-  /**
-   * Count child records.
-   *
-   * @return {Number}
-   */
+  needingSponsorship: async (ctx) => {
+
+    return strapi.services.child.needingSponsorship();
+  },
 
   count: async (ctx) => {
     return strapi.services.child.count(ctx.query);
@@ -70,5 +69,5 @@ module.exports = {
 
   destroy: async (ctx, next) => {
     return strapi.services.child.remove(ctx.params);
-  }
+  },
 };

@@ -29,7 +29,7 @@ module.exports = {
       .filter(ast => ast.autoPopulate !== false)
       .map(ast => ast.alias);
 
-    return Child.query(function(qb) {
+    return Child.query(function (qb) {
       _.forEach(filters.where, (where, key) => {
         if (_.isArray(where.value) && where.symbol !== 'IN' && where.symbol !== 'NOT IN') {
           for (const value in where.value) {
@@ -74,11 +74,17 @@ module.exports = {
    * @return {Promise}
    */
 
+  needingSponsorship: () => {
+    return Child.query().select().whereRaw("?? < ??", ['activeSponsors', 'sponsorsNeeded']).count().then(result => {
+      return result[0].count;
+    });
+  },
+
   count: (params) => {
     // Convert `params` object to filters compatible with Bookshelf.
     const filters = strapi.utils.models.convertParams('child', params);
 
-    return Child.query(function(qb) {
+    return Child.query(function (qb) {
       _.forEach(filters.where, (where, key) => {
         if (_.isArray(where.value)) {
           for (const value in where.value) {
@@ -106,7 +112,7 @@ module.exports = {
     const entry = await Child.forge(data).save();
 
     // Create relational data and return the entry.
-    return Child.updateRelations({ id: entry.id , values: relations });
+    return Child.updateRelations({ id: entry.id, values: relations });
   },
 
   /**

@@ -1,3 +1,3 @@
 {
-  "myCustomConfiguration": "This configuration is accessible through strapi.config.environments.development.myCustomConfiguration"
+  "stripe_key": "sk_test_LbPiJxaIbX40gIyJPFOFxLf5"
 }

@@ -1,121 +1,116 @@
-/* global Child */
+/* global Sponsor */
 'use strict';
 
 /**
- * Child.js service
+ * Sponsor.js service
  *
  * @description: A set of functions similar to controller's actions to avoid code duplication.
  */
 
 // Public dependencies.
 const _ = require('lodash');
-const stripe = require('stripe')('sk_test_LbPiJxaIbX40gIyJPFOFxLf5');
 
 // Strapi utilities.
 const utils = require('strapi-hook-bookshelf/lib/utils/');
 const { convertRestQueryParams, buildQuery } = require('strapi-utils');
+
+
 module.exports = {
 
   /**
-   * Promise to fetch all children.
+   * Promise to fetch all sponsors.
    *
    * @return {Promise}
    */
 
   fetchAll: (params, populate) => {
     // Select field to populate.
-    const withRelated = populate || Child.associations
+    const withRelated = populate || Sponsor.associations
       .filter(ast => ast.autoPopulate !== false)
       .map(ast => ast.alias);
 
     const filters = convertRestQueryParams(params);
 
-    return Child.query(buildQuery({ model: Child, filters }))
+    return Sponsor.query(buildQuery({ model: Sponsor, filters }))
       .fetchAll({ withRelated })
       .then(data => data.toJSON());
   },
 
   /**
-   * Promise to fetch a/an child.
+   * Promise to fetch a/an sponsor.
    *
    * @return {Promise}
    */
 
   fetch: (params) => {
     // Select field to populate.
-    const populate = Child.associations
+    const populate = Sponsor.associations
       .filter(ast => ast.autoPopulate !== false)
       .map(ast => ast.alias);
 
-    return Child.forge(_.pick(params, 'id')).fetch({
+    return Sponsor.forge(_.pick(params, 'id')).fetch({
       withRelated: populate
     });
   },
 
   /**
-   * Promise to count a/an child.
+   * Promise to count a/an sponsor.
    *
    * @return {Promise}
    */
-
-  needingSponsorship: () => {
-    return Child.query().select().whereRaw('?? < ??', ['activeSponsors', 'sponsorsNeeded']).count().then(result => {
-      return result[0].count;
-    });
-  },
 
   count: (params) => {
     // Convert `params` object to filters compatible with Bookshelf.
     const filters = convertRestQueryParams(params);
 
-    return Child.query(buildQuery({ model: Child, filters: _.pick(filters, 'where') })).count();
+    return Sponsor.query(buildQuery({ model: Sponsor, filters: _.pick(filters, 'where') })).count();
   },
 
   /**
-   * Promise to add a/an child.
+   * Promise to add a/an sponsor.
    *
    * @return {Promise}
    */
 
   add: async (values) => {
     // Extract values related to relational data.
-    const relations = _.pick(values, Child.associations.map(ast => ast.alias));
-    const data = _.omit(values, Child.associations.map(ast => ast.alias));
+    const relations = _.pick(values, Sponsor.associations.map(ast => ast.alias));
+    const data = _.omit(values, Sponsor.associations.map(ast => ast.alias));
 
     // Create entry with no-relational data.
-    const entry = await Child.forge(data).save();
+    const entry = await Sponsor.forge(data).save();
 
     // Create relational data and return the entry.
-    return Child.updateRelations({ id: entry.id, values: relations });
+    return Sponsor.updateRelations({ id: entry.id , values: relations });
   },
 
   /**
-   * Promise to edit a/an child.
+   * Promise to edit a/an sponsor.
    *
    * @return {Promise}
    */
 
   edit: async (params, values) => {
     // Extract values related to relational data.
-    const relations = _.pick(values, Child.associations.map(ast => ast.alias));
-    const data = _.omit(values, Child.associations.map(ast => ast.alias));
+    const relations = _.pick(values, Sponsor.associations.map(ast => ast.alias));
+    const data = _.omit(values, Sponsor.associations.map(ast => ast.alias));
 
     // Create entry with no-relational data.
-    const entry = await Child.forge(params).save(data);
+    const entry = await Sponsor.forge(params).save(data);
 
     // Create relational data and return the entry.
-    return Child.updateRelations(Object.assign(params, { values: relations }));
+    return Sponsor.updateRelations(Object.assign(params, { values: relations }));
   },
 
   /**
-   * Promise to remove a/an child.
+   * Promise to remove a/an sponsor.
    *
    * @return {Promise}
    */
 
   remove: async (params) => {
     params.values = {};
-    Child.associations.map(association => {
+    Sponsor.associations.map(association => {
       switch (association.nature) {
         case 'oneWay':
         case 'oneToOne':
@@ -132,50 +127,41 @@ module.exports = {
       }
     });
 
-    await Child.updateRelations(params);
+    await Sponsor.updateRelations(params);
 
-    return Child.forge(params).destroy();
+    return Sponsor.forge(params).destroy();
   },
 
   /**
-   * Promise to search a/an child.
+   * Promise to search a/an sponsor.
    *
    * @return {Promise}
    */
 
   search: async (params) => {
     // Convert `params` object to filters compatible with Bookshelf.
-    const filters = strapi.utils.models.convertParams('child', params);
+    const filters = strapi.utils.models.convertParams('sponsor', params);
     // Select field to populate.
-    const populate = Child.associations
+    const populate = Sponsor.associations
       .filter(ast => ast.autoPopulate !== false)
       .map(ast => ast.alias);
 
-    const associations = Child.associations.map(x => x.alias);
-    const searchText = Object.keys(Child._attributes)
-      .filter(attribute => attribute !== Child.primaryKey && !associations.includes(attribute))
-      .filter(attribute => ['string', 'text'].includes(Child._attributes[attribute].type));
+    const associations = Sponsor.associations.map(x => x.alias);
+    const searchText = Object.keys(Sponsor._attributes)
+      .filter(attribute => attribute !== Sponsor.primaryKey && !associations.includes(attribute))
+      .filter(attribute => ['string', 'text'].includes(Sponsor._attributes[attribute].type));
 
-    const searchNoText = Object.keys(Child._attributes)
-      .filter(attribute => attribute !== Child.primaryKey && !associations.includes(attribute))
-      .filter(attribute => !['string', 'text', 'boolean', 'integer', 'decimal', 'float'].includes(Child._attributes[attribute].type));
+    const searchInt = Object.keys(Sponsor._attributes)
+      .filter(attribute => attribute !== Sponsor.primaryKey && !associations.includes(attribute))
+      .filter(attribute => ['integer', 'decimal', 'float'].includes(Sponsor._attributes[attribute].type));
 
-    const searchInt = Object.keys(Child._attributes)
-      .filter(attribute => attribute !== Child.primaryKey && !associations.includes(attribute))
-      .filter(attribute => ['integer', 'decimal', 'float'].includes(Child._attributes[attribute].type));
-
-    const searchBool = Object.keys(Child._attributes)
-      .filter(attribute => attribute !== Child.primaryKey && !associations.includes(attribute))
-      .filter(attribute => ['boolean'].includes(Child._attributes[attribute].type));
+    const searchBool = Object.keys(Sponsor._attributes)
+      .filter(attribute => attribute !== Sponsor.primaryKey && !associations.includes(attribute))
+      .filter(attribute => ['boolean'].includes(Sponsor._attributes[attribute].type));
 
     const query = (params._q || '').replace(/[^a-zA-Z0-9.-\s]+/g, '');
 
-    return Child.query(qb => {
-      // Search in columns which are not text value.
-      searchNoText.forEach(attribute => {
-        qb.orWhereRaw(`LOWER(${attribute}) LIKE '%${_.toLower(query)}%'`);
-      });
-
+    return Sponsor.query(qb => {
       if (!_.isNaN(_.toNumber(query))) {
         searchInt.forEach(attribute => {
           qb.orWhereRaw(`${attribute} = ${_.toNumber(query)}`);
@@ -189,7 +175,7 @@ module.exports = {
       }
 
       // Search in columns with text using index.
-      switch (Child.client) {
+      switch (Sponsor.client) {
         case 'mysql':
           qb.orWhereRaw(`MATCH(${searchText.join(',')}) AGAINST(? IN BOOLEAN MODE)`, `*${query}*`);
           break;
@@ -218,14 +204,6 @@ module.exports = {
       }
     }).fetchAll({
       withRelated: populate
-    });
-  },
-
-  sponsorChild: async (sponsor) => {
-    stripe.customers.create({
-      email: sponsor.email,
-      name: `${sponsor.firstName} ${sponsor.lastName}`,
-      source: sponsor.payment.token
     });
   }
 };

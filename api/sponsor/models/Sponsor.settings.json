@@ -1,0 +1,27 @@
+{
+  "connection": "default",
+  "collectionName": "sponsors",
+  "info": {
+    "name": "sponsor",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "stripeCustomer": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "temporaryPasscode": {
+      "type": "integer"
+    },
+    "passcodeGeneratedDate": {
+      "type": "date"
+    }
+  }
+}

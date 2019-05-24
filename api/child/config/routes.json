@@ -55,6 +55,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "POST",
+      "path": "/sponsorChild",
+      "handler": "Child.sponsorChild",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }

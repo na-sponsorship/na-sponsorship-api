@@ -5,8 +5,8 @@
       "connector": "strapi-hook-bookshelf",
       "settings": {
         "client": "pg",
-        "host": "database",
-        "port": "5432",
+        "host": "0.0.0.0",
+        "port": "5433",
         "database": "noahsarc",
         "username": "user",
         "password": "secret",

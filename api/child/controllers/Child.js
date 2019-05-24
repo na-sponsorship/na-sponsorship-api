@@ -70,4 +70,9 @@ module.exports = {
   destroy: async (ctx, next) => {
     return strapi.services.child.remove(ctx.params);
   },
+
+  sponsorChild: async (ctx, next) => {
+    return strapi.services.child.sponsorChild(ctx.request.body);
+    console.log('test');
+  }
 };

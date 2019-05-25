@@ -1,3 +1,4 @@
 {
-  "myCustomConfiguration": "This configuration is accessible through strapi.config.environments.staging.myCustomConfiguration"
+  "stripe_key": "${process.env.STRIPE_KEY}",
+  "general_fund_product": "prod_F87TnvvCe7MrKZ"
 }

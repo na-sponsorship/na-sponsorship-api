@@ -6,7 +6,7 @@
     "enabled": false
   },
   "autoReload": {
-    "enabled": false
+    "enabled": true
   },
   "cron": {
     "enabled": false

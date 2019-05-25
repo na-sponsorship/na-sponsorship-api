@@ -33,7 +33,6 @@ module.exports = {
   },
 
   needingSponsorship: async (ctx) => {
-
     return strapi.services.child.needingSponsorship();
   },
 
@@ -73,6 +72,5 @@ module.exports = {
 
   sponsorChild: async (ctx, next) => {
     return strapi.services.child.sponsorChild(ctx.request.body);
-    console.log('test');
   }
 };

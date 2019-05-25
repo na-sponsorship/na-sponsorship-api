@@ -38,8 +38,7 @@
     "picture": {
       "model": "file",
       "via": "related",
-      "plugin": "upload",
-      "required": false
+      "plugin": "upload"
     },
     "story": {
       "default": "",
@@ -52,6 +51,9 @@
     "activeSponsors": {
       "default": "",
       "type": "integer"
+    },
+    "stripeProduct": {
+      "type": "string"
     }
   }
 }

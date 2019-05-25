@@ -9,7 +9,7 @@
 
 // Public dependencies.
 const _ = require('lodash');
-const stripe = require('stripe')('sk_test_LbPiJxaIbX40gIyJPFOFxLf5');
+const strapi = require('strapi');
 
 // Strapi utilities.
 const utils = require('strapi-hook-bookshelf/lib/utils/');
@@ -88,6 +88,7 @@ module.exports = {
     // Create relational data and return the entry.
     return Child.updateRelations({ id: entry.id, values: relations });
   },
+
 
   /**
    * Promise to edit a/an child.
@@ -221,11 +222,10 @@ module.exports = {
     });
   },
 
-  sponsorChild: async (sponsor) => {
-    stripe.customers.create({
-      email: sponsor.email,
-      name: `${sponsor.firstName} ${sponsor.lastName}`,
-      source: sponsor.payment.token
-    });
+  sponsorChild: async (sponsorship) => {
+    return strapi.services.sponsor.add(sponsorship)
+      .then(() => {
+        console.log('stripe customer added and strapi customer added');
+      });
   }
 };

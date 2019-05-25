@@ -1,6 +1,8 @@
 /* global Sponsor */
 'use strict';
 
+const strapi = require('strapi');
+
 /**
  * Sponsor.js service
  *
@@ -72,16 +74,76 @@ module.exports = {
    * @return {Promise}
    */
 
-  add: async (values) => {
-    // Extract values related to relational data.
-    const relations = _.pick(values, Sponsor.associations.map(ast => ast.alias));
-    const data = _.omit(values, Sponsor.associations.map(ast => ast.alias));
+  add: async (sponsorData) => {
+    const stripe = require('stripe')(strapi.config.currentEnvironment['stripe_key']);
 
-    // Create entry with no-relational data.
-    const entry = await Sponsor.forge(data).save();
+    let customer = {
+      address: sponsorData.address,
+      email: sponsorData.email,
+      description: 'Child Sponsor',
+      source: sponsorData.payment.token,
+      name: `${sponsorData.firstName} ${sponsorData.lastName}`
+    };
 
-    // Create relational data and return the entry.
-    return Sponsor.updateRelations({ id: entry.id , values: relations });
+    // Create a stripe customer
+    return stripe.customers.create(customer).then(async (stripeCustomer) => {
+      let subscription;
+
+      let data = {
+        stripeCustomer: stripeCustomer.id,
+        email: sponsorData.email,
+      };
+
+      const newSponsor = await Sponsor.forge(data).save();
+
+      // Sponsor child
+      subscription = await strapi.services.sponsor.sponsorChild(sponsorData.child_id, newSponsor.id);
+
+      // Contribute to general fund if the selected the option
+      if (sponsorData.payment.extraMonthly) {
+        return strapi.services.sponsor.addToGeneralFund(newSponsor.id);
+      } else {
+        return subscription;
+      }
+    });
+  },
+
+  sponsorChild: async (child_id, sponsor_id) => {
+    const stripe = require('stripe')(strapi.config.currentEnvironment['stripe_key']);
+
+    let child = await strapi.services.child.fetch({ id: child_id });
+    let sponsor = await strapi.services.sponsor.fetch({ id: sponsor_id });
+
+    let child_pricing_plans = await stripe.plans.list({ product: child.attributes.stripeProduct });
+
+    return await stripe.subscriptions.create({
+      customer: sponsor.attributes.stripeCustomer,
+      items: [
+        { plan: child_pricing_plans.data[0].id }
+      ]
+    }).then(async () => {
+      // increase the child's sponsors count
+      const activeSponsors = child.attributes.activeSponsors;
+      child.attributes.activeSponsors = activeSponsors +1;
+
+      return child.save();
+      // return await strapi.services.child.edit({ id:}, { activeSponsors: activeSponsors + 1 });
+    });
+  },
+
+  addToGeneralFund: async (sponsor_id) => {
+    const stripe = require('stripe')(strapi.config.currentEnvironment['stripe_key']);
+
+    let sponsor = await strapi.services.sponsor.fetch({ id: sponsor_id });
+    let general_pricing_plans = await stripe.plans.list({ product: strapi.config.currentEnvironment['general_fund_product'] });
+
+
+    return await stripe.subscriptions.create({
+      customer: sponsor.attributes.stripeCustomer,
+      items: [
+        { plan: general_pricing_plans.data[0].id }
+      ]
+    });
   },
 
   /**

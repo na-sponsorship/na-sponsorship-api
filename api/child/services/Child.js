@@ -223,9 +223,28 @@ module.exports = {
   },
 
   sponsorChild: async (sponsorship) => {
-    return strapi.services.sponsor.add(sponsorship)
-      .then(() => {
-        console.log('stripe customer added and strapi customer added');
-      });
+    return strapi.services.sponsor.add(sponsorship);
+  },
+
+  createStripeProduct: async (child) => {
+    const stripe = require('stripe')(strapi.config.currentEnvironment['stripe_key']);
+
+    return await stripe.products.create({
+      name: `${child.firstName} ${child.lastName} (Child)`,
+      type: 'service',
+      statement_descriptor: 'NoahsArc-ChildSponsor'
+    });
+  },
+
+  addPricingPlan: async (child_product_id) => {
+    const stripe = require('stripe')(strapi.config.currentEnvironment['stripe_key']);
+
+    // Create plan
+    await stripe.plans.create({
+      amount: 3000,
+      currency: 'usd',
+      interval: 'month',
+      product: child_product_id
+    });
   }
 };

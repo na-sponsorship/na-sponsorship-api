@@ -124,10 +124,9 @@ module.exports = {
     }).then(async () => {
       // increase the child's sponsors count
       const activeSponsors = child.attributes.activeSponsors;
-      child.attributes.activeSponsors = activeSponsors +1;
+      child.attributes.activeSponsors = activeSponsors + 1;
 
       return child.save();
-      // return await strapi.services.child.edit({ id:}, { activeSponsors: activeSponsors + 1 });
     });
   },
 

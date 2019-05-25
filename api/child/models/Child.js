@@ -1,5 +1,7 @@
 'use strict';
 
+const strapi = require('strapi');
+
 /**
  * Lifecycle callbacks for the `Child` model.
  */
@@ -20,7 +22,7 @@ module.exports = {
   // After fetching a value.
   // Fired after a `fetch` operation.
   // afterFetch: async (model, response, options) => {},
-  
+
   // Before fetching all values.
   // Fired before a `fetchAll` operation.
   // beforeFetchAll: async (model, columns, options) => {},
@@ -35,7 +37,15 @@ module.exports = {
 
   // After creating a value.
   // Fired after an `insert` query.
-  // afterCreate: async (model, attrs, options) => {},
+  afterCreate: async (model, attrs, options) => {
+    let childProduct = await strapi.services.child.createStripeProduct(model.attributes);
+
+    model.set('stripeProduct', childProduct.id);
+
+    await strapi.services.child.addPricingPlan(childProduct.id);
+
+    return model.save();
+  },
 
   // Before updating a value.
   // Fired before an `update` query.

@@ -1,4 +1,4 @@
 {
   "stripe_key": "${process.env.STRIPE_KEY}",
-  "general_fund_product": "prod_F87TnvvCe7MrKZ"
+  "general_fund_product": "prod_F89I8epgo9D7oK"
 }

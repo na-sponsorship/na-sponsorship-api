@@ -1,53 +1,58 @@
 {
-  "name": "na-sponsorship-api",
-  "private": true,
-  "version": "0.1.0",
-  "description": "A Strapi application.",
-  "main": "./server.js",
+  "name": "-nest",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "license": "MIT",
   "scripts": {
-    "setup": "cd admin && npm run setup",
-    "start": "node server.js",
-    "start:dev": "node --inspect=0.0.0.0 server.js",
-    "strapi": "node_modules/strapi/bin/strapi.js",
-    "lint": "node_modules/.bin/eslint api/**/*.js config/**/*.js plugins/**/*.js",
-    "postinstall": "node node_modules/strapi/lib/utils/post-install.js"
-  },
-  "devDependencies": {
-    "babel-eslint": "^7.1.1",
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb": "^13.0.0",
-    "eslint-plugin-import": "^2.11.0",
-    "eslint-plugin-react": "^7.7.0"
+    "build": "tsc -p tsconfig.build.json",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "start": "ts-node -r tsconfig-paths/register src/main.ts",
+    "start:dev": "concurrently --handle-input \"wait-on dist/main.js && nodemon\" \"tsc -w -p tsconfig.build.json\" ",
+    "start:debug": "nodemon --config nodemon-debug.json",
+    "prestart:prod": "rimraf dist && npm run build",
+    "start:prod": "node dist/main.js",
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "knex": "latest",
-    "lodash": "^4.17.5",
-    "pg": "^7.9.0",
-    "strapi": "3.0.0-alpha.26.1",
-    "strapi-hook-bookshelf": "3.0.0-alpha.26.1",
-    "strapi-hook-knex": "3.0.0-alpha.26.1",
-    "strapi-provider-upload-aws-s3": "^3.0.0-alpha.26.1",
-    "stripe": "^7.0.0"
+    "@nestjs/common": "^6.0.0",
+    "@nestjs/core": "^6.0.0",
+    "@nestjs/platform-express": "^6.0.0", 
+    "reflect-metadata": "^0.1.12",
+    "rimraf": "^2.6.2",
+    "rxjs": "^6.3.3"
   },
-  "author": {
-    "name": "davidhevesi",
-    "email": "",
-    "url": ""
+  "devDependencies": {
+    "@nestjs/testing": "^6.0.0",
+    "@types/express": "^4.16.0",
+    "@types/jest": "^23.3.13",
+    "@types/node": "^10.12.18",
+    "@types/supertest": "^2.0.7",
+    "concurrently": "^4.1.0",
+    "jest": "^23.6.0",
+    "nodemon": "^1.18.9",
+    "prettier": "^1.15.3",
+    "supertest": "^3.4.1",
+    "ts-jest": "24.0.2",
+    "ts-node": "8.1.0",
+    "tsconfig-paths": "3.8.0",
+    "tslint": "5.16.0",
+    "typescript": "3.4.3",
+    "wait-on": "^3.2.0"
   },
-  "maintainers": [
-    {
-      "name": "davidhevesi",
-      "email": "",
-      "url": ""
-    }
-  ],
-  "strapi": {
-    "packageManager": "npm",
-    "uuid": "5ef169c5-6627-4c86-9660-b5d49ad2afea"
-  },
-  "engines": {
-    "node": ">= 10.0.0",
-    "npm": ">= 6.0.0"
-  },
-  "license": "MIT"
+  "jest": {
+    "moduleFileExtensions": ["js", "json", "ts"],
+    "rootDir": "src",
+    "testRegex": ".spec.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  }
 }

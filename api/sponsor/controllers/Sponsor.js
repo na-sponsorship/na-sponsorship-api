@@ -70,5 +70,9 @@ module.exports = {
 
   destroy: async (ctx, next) => {
     return strapi.services.sponsor.remove(ctx.params);
+  },
+
+  getCode: async (ctx, next) => {
+    return strapi.services.sponsor.getCode(ctx.request.body.email);
   }
 };

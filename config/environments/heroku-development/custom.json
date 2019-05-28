@@ -1,4 +1,5 @@
 {
   "stripe_key": "${process.env.STRIPE_KEY}",
-  "general_fund_product": "prod_F89I8epgo9D7oK"
+  "general_fund_product": "prod_F89I8epgo9D7oK",
+  "sendgrid_key": "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"
 }

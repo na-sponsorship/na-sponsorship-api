@@ -266,5 +266,20 @@ module.exports = {
     }).fetchAll({
       withRelated: populate
     });
+  },
+
+  getCode: async (email) => {
+    const sgMail = require('@sendgrid/mail');
+
+    sgMail.setApiKey(strapi.config.currentEnvironment['sendgrid_key']);
+
+    const msg = {
+      to: email,
+      subject: 'Verify Noah\'s Arc code',
+      text: 'Your code is DFKLJSDF^&*',
+      html: '<strong>Verify</strong>: Your code is kDSFJlksjfD&*Y(',
+    };
+
+    return sgMail.send(msg);
   }
 };

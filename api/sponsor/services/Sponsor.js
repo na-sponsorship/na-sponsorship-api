@@ -2,15 +2,14 @@
 'use strict';
 
 const strapi = require('strapi');
+const _ = require('lodash');
+const dayjs = require('dayjs');
 
 /**
  * Sponsor.js service
  *
  * @description: A set of functions similar to controller's actions to avoid code duplication.
  */
-
-// Public dependencies.
-const _ = require('lodash');
 
 // Strapi utilities.
 const utils = require('strapi-hook-bookshelf/lib/utils/');
@@ -271,15 +270,39 @@ module.exports = {
   getCode: async (email) => {
     const sgMail = require('@sendgrid/mail');
 
-    sgMail.setApiKey(strapi.config.currentEnvironment['sendgrid_key']);
+    // generate a code
+    const generateCode = () => {
+      let numbers = '';
 
-    const msg = {
-      to: email,
-      subject: 'Verify Noah\'s Arc code',
-      text: 'Your code is DFKLJSDF^&*',
-      html: '<strong>Verify</strong>: Your code is kDSFJlksjfD&*Y(',
+      for (let i = 0; i < 7; i++) {
+        numbers += _.random(9);
+      }
+
+      return _.parseInt(numbers);
     };
 
-    return sgMail.send(msg);
+    sgMail.setApiKey(strapi.config.currentEnvironment['sendgrid_key']);
+
+    const code = generateCode();
+    const msg = {
+      to: email,
+      from: 'eugenistoc@gmail.com',
+      subject: 'Verify Noah\'s Arc code',
+      html: `
+      <strong>Verify</strong>: Your code is ${code}
+      <br>
+      <a href="#">Click here to login</a>
+      `,
+    };
+
+    // Set User's temp code
+    return Sponsor.query({ where: { email } }).fetch().then((sponsor) => {
+      sponsor.set('temporaryPasscode', code);
+      sponsor.set('passcodeGeneratedDate', dayjs());
+      return sponsor.save().then(() => {
+        return sgMail.send(msg);
+
+      });
+    });
   }
 };

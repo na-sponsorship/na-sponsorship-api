@@ -81,5 +81,4 @@ test:
 production:
   <<: *default
   database: na_sponsorship_api_production
-  username: na_sponsorship_api
-  password: <%= ENV['NA_SPONSORSHIP_API_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>

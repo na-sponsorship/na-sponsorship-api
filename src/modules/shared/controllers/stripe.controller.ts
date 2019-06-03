@@ -1,13 +1,17 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Post, Body, Headers, Req, Request } from '@nestjs/common';
 import * as Stripe from 'stripe';
 
 import { StripeService } from '../services/stripe.service';
 
 @Controller('/stripe')
 export class StripeController {
-  constructor(private readonly stripeService: StripeService) { }
+  private readonly stripeService: StripeService;
 
-  @Get()
+  constructor(stripeService: StripeService) {
+    this.stripeService = stripeService;
+  }
+
+  @Post()
   getHello(): string {
     const customer: Stripe.customers.ICustomer = {
       address: null,
@@ -23,5 +27,16 @@ export class StripeController {
       object: null,
     };
     return this.stripeService.createCustomer(customer);
+  }
+
+  @Post('/webhook')
+  webhook(@Body() req: any, @Headers('stripe-signature') stripeSignature: any): void {
+    const event: Stripe.events.IEvent = this.stripeService.verifyEvent(req, stripeSignature);
+
+    switch (event.type) {
+      case 'product.deleted':
+        // Soft delte product
+        break;
+    }
   }
 }

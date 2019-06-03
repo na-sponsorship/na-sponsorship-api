@@ -1,3 +1,4 @@
 export default {
-    url: process.env.sentry_url,
+    apiKey: process.env.stripe_apiKey,
+    webhook_signature: process.env.stripe_webhook_signature,
 };

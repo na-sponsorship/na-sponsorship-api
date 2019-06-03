@@ -7,13 +7,14 @@ export class SentryLogger extends Logger {
     constructor(url: string) {
         super();
 
-        this.sentry = Sentry.init({ dsn: 'https://2106ae1d85e34bb8bc215850549a49c4@sentry.io/1469226' });
+        Sentry.init({ dsn: url, environment: process.env.NODE_ENV });
     }
 
     log(message: string) {
         super.log(message);
     }
     error(message: string, trace: string) {
+        Sentry.captureException(new Error(message));
         super.error(message, trace);
     }
     warn(message: string) {

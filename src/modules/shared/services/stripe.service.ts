@@ -4,18 +4,25 @@ import * as Stripe from 'stripe';
 
 @Injectable()
 export class StripeService {
-  stripe: Stripe;
+  private readonly config: ConfigService;
+  private readonly stripe: Stripe;
 
-  constructor(private readonly config: ConfigService) {
+  constructor(config: ConfigService) {
     this.stripe = new Stripe(config.get('stripe').apiKey);
+    this.config = config;
   }
 
   createCustomer(customer: Stripe.customers.ICustomer): string {
+    // const customer = await Stripe.resources.
     return 'create customer';
     // no-op
   }
 
   createProduct(product: Stripe.products.IProduct) {
     // no-op
+  }
+
+  public verifyEvent(rawEvent: string, signature: string): Stripe.events.IEvent {
+    return this.stripe.webhooks.constructEvent(rawEvent, signature, this.config.get('stripe').webhook_signature);
   }
 }

@@ -8,6 +8,7 @@ dotenv.config();
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: new SentryLogger(process.env.sentry_url),
+    bodyParser: false,
   });
   await app.listen(3000);
 }

@@ -1,4 +1,5 @@
 import * as dotenv from 'dotenv';
+import { SentryLogger } from './migrations.logger';
 
 dotenv.config({ path: 'environment.env' });
 
@@ -13,4 +14,6 @@ export = {
   entities: [process.cwd() + '/src/**/*.entity{.ts,.js}'],
   migrationsRun: true,
   migrations: [process.cwd() + '/db_migrations/migrations/*{.ts,.js}'],
+  logging: true,
+  logger: new SentryLogger(),
 };

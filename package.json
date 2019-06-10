@@ -21,8 +21,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migration:create": "yarn run typeorm migration:create -d src/migrations",
-    "migration:run": "yarn run typeorm migration:run -f db_migrations/config.ts",
-    "migration:show": "yarn run typeorm migration:show -f db_migrations/config.ts"
+    "migration:run": "yarn run typeorm migration:run -f db_migrations/migrations.config.ts",
+    "migration:show": "yarn run typeorm migration:show -f db_migrations/migrations.config.ts"
   },
   "dependencies": {
     "@nestjs/common": "^6.0.0",

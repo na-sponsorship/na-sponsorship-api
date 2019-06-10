@@ -1,3 +1,3 @@
 export default {
-    url: process.env.sentry_url,
+    URL: process.env.SENTRY_URL,
 };

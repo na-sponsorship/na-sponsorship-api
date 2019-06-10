@@ -1,4 +1,4 @@
 export default {
-    apiKey: process.env.stripe_apiKey,
-    webhook_signature: process.env.stripe_webhook_signature,
+    APIKEY: process.env.STRIPE_APIKEY,
+    WBHOOK_SIGNATURE: process.env.STRIPE_WBHOOK_SIGNATURE,
 };

@@ -8,7 +8,7 @@ export class StripeService {
   private readonly stripe: Stripe;
 
   constructor(config: ConfigService) {
-    this.stripe = new Stripe(config.get('stripe').apiKey);
+    this.stripe = new Stripe(config.get('stripe').APIKEY);
     this.config = config;
   }
 
@@ -22,7 +22,14 @@ export class StripeService {
     // no-op
   }
 
-  public verifyEvent(rawEvent: string, signature: string): Stripe.events.IEvent {
-    return this.stripe.webhooks.constructEvent(rawEvent, signature, this.config.get('stripe').webhook_signature);
+  public verifyEvent(
+    rawEvent: string,
+    signature: string,
+  ): Stripe.events.IEvent {
+    return this.stripe.webhooks.constructEvent(
+      rawEvent,
+      signature,
+      this.config.get('stripe').WBHOOK_SIGNATURE,
+    );
   }
 }

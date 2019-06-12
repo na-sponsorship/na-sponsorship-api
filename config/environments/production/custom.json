@@ -1,6 +1,3 @@
 {
-  "stripe_key": "${process.env.STRIPE_KEY}",
-  "general_fund_product": "prod_F89I8epgo9D7oK",
-  "sendgrid_key": "${process.env.SENDGRID_KEY}"
-
+  "myCustomConfiguration": "This configuration is accessible through strapi.config.environments.production.myCustomConfiguration"
 }

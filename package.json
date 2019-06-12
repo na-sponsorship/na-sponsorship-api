@@ -3,14 +3,13 @@
   "private": true,
   "version": "0.1.0",
   "description": "A Strapi application.",
-  "main": "./server.js",
   "scripts": {
-    "setup": "cd admin && npm run setup",
-    "start": "node server.js",
+    "develop": "strapi develop",
+    "start": "strapi start",
     "start:dev": "node --inspect=0.0.0.0 server.js",
-    "strapi": "node_modules/strapi/bin/strapi.js",
-    "lint": "node_modules/.bin/eslint api/**/*.js config/**/*.js plugins/**/*.js",
-    "postinstall": "node node_modules/strapi/lib/utils/post-install.js"
+    "build": "strapi build",
+    "strapi": "strapi",
+    "lint": "eslint api/**/*.js config/**/*.js plugins/**/*.js"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
@@ -20,35 +19,40 @@
     "eslint-plugin-react": "^7.7.0"
   },
   "dependencies": {
-    "@sendgrid/mail": "^6.4.0",
     "dayjs": "^1.8.14",
     "knex": "latest",
     "lodash": "^4.17.5",
-    "pg": "^7.9.0",
-    "strapi": "3.0.0-alpha.26.1",
-    "strapi-hook-bookshelf": "3.0.0-alpha.26.1",
-    "strapi-hook-knex": "3.0.0-alpha.26.1",
-    "strapi-provider-upload-aws-s3": "^3.0.0-alpha.26.1",
-    "stripe": "^7.0.0"
+    "pg": "7.11.0",
+    "strapi": "3.0.0-beta.3",
+    "strapi-admin": "3.0.0-beta.3",
+    "strapi-hook-bookshelf": "3.0.0-beta.3",
+    "strapi-hook-knex": "3.0.0-beta.3",
+    "strapi-plugin-content-manager": "3.0.0-beta.3",
+    "strapi-plugin-content-type-builder": "3.0.0-beta.3",
+    "strapi-plugin-email": "3.0.0-beta.3",
+    "strapi-plugin-settings-manager": "3.0.0-beta.3",
+    "strapi-plugin-upload": "3.0.0-beta.3",
+    "strapi-plugin-users-permissions": "3.0.0-beta.3",
+    "strapi-provider-upload-aws-s3": "^3.0.0-alpha.15",
+    "strapi-utils": "3.0.0-beta.3"
   },
   "author": {
-    "name": "davidhevesi",
+    "name": "eugenistoc",
     "email": "",
     "url": ""
   },
   "maintainers": [
     {
-      "name": "davidhevesi",
+      "name": "eugenistoc",
       "email": "",
       "url": ""
     }
   ],
   "strapi": {
-    "packageManager": "npm",
-    "uuid": "5ef169c5-6627-4c86-9660-b5d49ad2afea"
+    "uuid": "12b2a03d-6443-4b64-a081-036cb8bef727"
   },
   "engines": {
-    "node": ">= 10.0.0",
+    "node": "^10.0.0",
     "npm": ">= 6.0.0"
   },
   "license": "MIT"

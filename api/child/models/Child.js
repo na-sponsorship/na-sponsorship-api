@@ -1,6 +1,4 @@
-'use strict';
-
-const strapi = require('strapi');
+"use strict";
 
 /**
  * Lifecycle callbacks for the `Child` model.
@@ -38,14 +36,16 @@ module.exports = {
   // After creating a value.
   // Fired after an `insert` query.
   afterCreate: async (model, attrs, options) => {
-    let childProduct = await strapi.services.child.createStripeProduct(model.attributes);
+    let childProduct = await strapi.services.child.createStripeProduct(
+      model.attributes
+    );
 
-    model.set('stripeProduct', childProduct.id);
+    model.set("stripeProduct", childProduct.id);
 
     await strapi.services.child.addPricingPlan(childProduct.id);
 
     return model.save();
-  },
+  }
 
   // Before updating a value.
   // Fired before an `update` query.

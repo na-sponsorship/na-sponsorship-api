@@ -1,9 +1,17 @@
 {
-  "routes": [
+  "routes": [    
     {
       "method": "GET",
       "path": "/children",
       "handler": "Child.find",
+      "config": {
+        "policies": []
+      }
+    },    
+    {
+      "method": "GET",
+      "path": "/children/count",
+      "handler": "Child.count",
       "config": {
         "policies": []
       }
@@ -18,8 +26,8 @@
     },
     {
       "method": "GET",
-      "path": "/children/count",
-      "handler": "Child.count",
+      "path": "/children/test",
+      "handler": "Child.test",
       "config": {
         "policies": []
       }
@@ -48,21 +56,22 @@
         "policies": []
       }
     },
+    
     {
       "method": "DELETE",
       "path": "/children/:id",
-      "handler": "Child.destroy",
+      "handler": "Child.delete",
       "config": {
         "policies": []
       }
-    },
+    },    
     {
       "method": "POST",
-      "path": "/sponsorChild",
+      "path": "/children/sponsorChild",
       "handler": "Child.sponsorChild",
       "config": {
         "policies": []
       }
-    }
+    }    
   ]
 }

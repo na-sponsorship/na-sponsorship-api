@@ -1,6 +1,6 @@
 {
   "connection": "default",
-  "collectionName": "child",
+  "collectionName": "children",
   "info": {
     "name": "child",
     "description": ""
@@ -12,28 +12,23 @@
   },
   "attributes": {
     "firstName": {
-      "default": "",
       "type": "string"
     },
     "lastName": {
-      "default": "",
       "type": "string"
     },
     "dateOfBirth": {
-      "default": "",
       "type": "date"
     },
     "grade": {
-      "default": "",
       "type": "string"
     },
     "gender": {
-      "default": "",
-      "type": "enumeration",
       "enum": [
         "male",
         "female"
-      ]
+      ],
+      "type": "enumeration"
     },
     "picture": {
       "model": "file",
@@ -41,15 +36,12 @@
       "plugin": "upload"
     },
     "story": {
-      "default": "",
       "type": "text"
     },
     "sponsorsNeeded": {
-      "default": "",
       "type": "integer"
     },
     "activeSponsors": {
-      "default": "",
       "type": "integer"
     },
     "stripeProduct": {

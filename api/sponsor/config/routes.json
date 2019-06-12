@@ -43,7 +43,7 @@
     {
       "method": "DELETE",
       "path": "/sponsors/:id",
-      "handler": "Sponsor.destroy",
+      "handler": "Sponsor.delete",
       "config": {
         "policies": []
       }

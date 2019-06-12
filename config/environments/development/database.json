@@ -4,13 +4,12 @@
     "default": {
       "connector": "strapi-hook-bookshelf",
       "settings": {
-        "client": "pg",
-        "host": "0.0.0.0",
+        "client": "postgres",
+        "host": "127.0.0.1",
         "port": "5433",
         "database": "noahsarc",
         "username": "user",
-        "password": "secret",
-        "ssl": false
+        "password": "secret"
       },
       "options": {}
     }

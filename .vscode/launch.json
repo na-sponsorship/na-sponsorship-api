@@ -6,6 +6,28 @@
   "configurations": [
     {
       "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "program": "${workspaceFolder}/server.js",
+      "skipFiles": [
+        "sync_hooks.js",
+        "helpers.js",
+        "loaders.js",
+        "loader.js",
+        "validators.js",
+        "util.js",
+        "path.js",
+        "fs.js",
+        "utils.js",
+        "url.js",
+        "types.js",
+        "assert.js",
+        "buffer.js",
+        "inspector_async_hook.js"
+      ]
+    },
+    {
+      "type": "node",
       "request": "attach",
       "name": "Attach",
       "port": 9229

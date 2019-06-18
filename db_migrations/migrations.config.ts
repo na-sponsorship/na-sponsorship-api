@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv';
 import { SentryLogger } from './migrations.logger';
 
 dotenv.config({ path: 'environment.env' });
-
+console.log('env: ' + process.env.NODE_ENV)
 export = {
   type: process.env.TYPEORM_CONNECTION,
   host: process.env.TYPEORM_HOST,

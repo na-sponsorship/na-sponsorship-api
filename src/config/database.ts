@@ -11,4 +11,5 @@ export default {
   migrations: [process.cwd() + '/db_migrations/migrations/*{.ts,.js}'],
   logging: true,
   logger: 'file',
+  synchronize: true,
 };

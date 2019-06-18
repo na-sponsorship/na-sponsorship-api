@@ -7,6 +7,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SharedModule } from './modules/shared/shared.module';
 import { RawBodyParserMiddleware } from './middleware/body-parser.middleware';
+import { ChildrenController } from './controllers/children.controller';
+import { ChildrenService } from './services/children.service';
+import { Child } from './entities/child.entity';
 
 @Module({
   imports: [
@@ -18,9 +21,10 @@ import { RawBodyParserMiddleware } from './middleware/body-parser.middleware';
       },
       inject: [ConfigService],
     }),
+    TypeOrmModule.forFeature([Child]),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, ChildrenController],
+  providers: [AppService, ChildrenService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

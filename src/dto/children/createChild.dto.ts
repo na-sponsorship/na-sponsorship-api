@@ -1,6 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 
-export class CreateChildDto {
+export class CreateChildDTO {
   @IsNotEmpty()
   readonly firstName: string;
 

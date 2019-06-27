@@ -1,16 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from 'nestjs-config';
 import * as Stripe from 'stripe';
 
 @Injectable()
 export class StripeService {
-  private readonly config: ConfigService;
   private readonly stripe: Stripe;
 
-  constructor(config: ConfigService) {
-    this.stripe = new Stripe(config.get('stripe').APIKEY);
-    this.config = config;
-  }
+  constructor() {}
 
   createCustomer(customer: Stripe.customers.ICustomer): string {
     // const customer = await Stripe.resources.
@@ -29,7 +24,7 @@ export class StripeService {
     return this.stripe.webhooks.constructEvent(
       rawEvent,
       signature,
-      this.config.get('stripe').WBHOOK_SIGNATURE,
+      process.env.STRIPE_WBHOOK_SIGNATURE,
     );
   }
 }

@@ -1,9 +1,10 @@
-import * as dotenv from 'dotenv';
-import { SentryLogger } from './migrations.logger';
+const dotenv = require('dotenv');
 
-dotenv.config({ path: 'environment.env' });
-console.log('env: ' + process.env.NODE_ENV)
-export = {
+dotenv.config();
+
+console.log(process.env.TYPEORM_DATABASE);
+
+module.exports = {
   type: process.env.TYPEORM_CONNECTION,
   host: process.env.TYPEORM_HOST,
   port: process.env.TYPEORM_PORT,
@@ -11,9 +12,10 @@ export = {
   password: process.env.TYPEORM_PASS,
   database: process.env.TYPEORM_DATABASE,
   ssl: process.env.NODE_ENV !== 'local',
-  entities: [process.cwd() + '/src/**/*.entity{.ts,.js}'],
-  migrationsRun: true,
+  entities: [process.cwd() + '**/*.entity{.ts,.js}'],
+  migrationsRun: process.env.NODE_ENV !== 'local',
   migrations: [process.cwd() + '/db_migrations/migrations/*{.ts,.js}'],
   logging: true,
-  logger: new SentryLogger(),
+  logger: 'file',
+  synchronize: process.env.NODE_ENV === 'local',
 };

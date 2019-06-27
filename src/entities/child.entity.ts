@@ -21,7 +21,7 @@ export class Child {
   @Column('text', { nullable: true })
   story: string;
 
-  @Column('enum', { enum: ['male', 'female'], nullable: true })
+  @Column({ nullable: true })
   gender: string;
 
   @Column({ nullable: true })

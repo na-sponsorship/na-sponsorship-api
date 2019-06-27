@@ -35,4 +35,7 @@ export class Child {
   @Exclude()
   @Column({ nullable: false, default: 0 })
   activeSponsors: number;
+
+  @Column({ nullable: true })
+  image: string;
 }

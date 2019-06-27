@@ -28,11 +28,11 @@ export class Child {
   @Exclude()
   stripeProduct: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false, default: 0 })
   @Exclude()
   sponsorsNeeded: number;
 
   @Exclude()
-  @Column({ nullable: true })
+  @Column({ nullable: false, default: 0 })
   activeSponsors: number;
 }

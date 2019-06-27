@@ -11,6 +11,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: new SentryLogger(process.env.SENTRY_URL),
     bodyParser: true,
+    cors: true,
   });
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   await app.listen(3000);

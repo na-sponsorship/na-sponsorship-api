@@ -9,9 +9,11 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
 } from '@nestjs/common';
+import { InsertResult } from 'typeorm';
+import { filter } from 'lodash';
+
 import { ChildrenService } from '../services/children.service';
 import { Child } from '../entities/child.entity';
-import { InsertResult } from 'typeorm';
 import { CreateChildDTO } from '../dto/children/createChild.dto';
 import { requestCodeDTO } from 'src/dto/sponsors/requestCode.dto';
 
@@ -25,6 +27,16 @@ export class ChildrenController {
     return await this.childrenService.findAll();
   }
 
+  @Get('/needingSponsorship')
+  async needingSponsorship() {
+    const children: Child[] = await this.childrenService.findAll();
+
+    return filter(
+      children,
+      (child: Child) => child.activeSponsors < child.sponsorsNeeded,
+    ).length;
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<Child> {
     return await this.childrenService.findOne(id);
@@ -32,7 +44,7 @@ export class ChildrenController {
 
   @Post()
   async create(@Body() child: CreateChildDTO): Promise<InsertResult> {
-    let result: InsertResult = await this.childrenService.create(child);
+    const result: InsertResult = await this.childrenService.create(child);
 
     // return await this.findOne(result.identifiers[0]);
     // return await this.childService.create(result);

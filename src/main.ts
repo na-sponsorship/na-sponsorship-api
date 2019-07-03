@@ -6,7 +6,7 @@ import * as path from 'path';
 import { ValidationPipe } from '@nestjs/common';
 
 dotenv.config();
-
+console.log(process.env.TYPEORM_CONNECTION);
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: new SentryLogger(process.env.SENTRY_URL),

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, InsertResult } from 'typeorm';
-import { Sponsor } from 'dist/src/entities/sponsor.entity';
+import { Sponsor } from '../entities/sponsor.entity';
 import { createSponsorDTO } from 'src/dto/sponsors/createSponsor.dto';
 import { requestCodeDTO } from 'src/dto/sponsors/requestCode.dto';
 import { VerifyCodeDTO } from 'src/dto/sponsors/verifyCode.dto';

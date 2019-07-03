@@ -2,8 +2,6 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-console.log(process.env.TYPEORM_DATABASE);
-
 module.exports = {
   type: process.env.TYPEORM_CONNECTION,
   host: process.env.TYPEORM_HOST,

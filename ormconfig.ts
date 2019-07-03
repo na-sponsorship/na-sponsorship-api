@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 
 dotenv.config();
-
+console.log(process.env);
 module.exports = {
   type: process.env.TYPEORM_CONNECTION,
   host: process.env.TYPEORM_HOST,

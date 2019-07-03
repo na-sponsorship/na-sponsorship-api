@@ -11,7 +11,8 @@
     "start:dev": "concurrently --handle-input \"wait-on dist/main.js && nodemon\" \"tsc -w -p tsconfig.build.json\" ",
     "start:debug": "nodemon --config nodemon-debug.json",
     "prestart:prod": "rimraf dist && npm run build",
-    "start:prod": "node dist/main.js",
+    "start:prod": "node dist/src/main.js",
+    "heroku-postbuild": "yarn run prestart:prod",
     "start:tunnel": "ngrok start -config ngrok.yml api",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "jest",
@@ -42,7 +43,8 @@
     "rimraf": "^2.6.2",
     "rxjs": "^6.3.3",
     "stripe": "^7.1.0",
-    "typeorm": "^0.2.18"
+    "typeorm": "^0.2.18",
+    "ts-node": "8.1.0"
   },
   "devDependencies": {
     "@nestjs/testing": "^6.0.0",
@@ -57,8 +59,7 @@
     "nodemon": "^1.18.9",
     "prettier": "^1.15.3",
     "supertest": "^3.4.1",
-    "ts-jest": "24.0.2",
-    "ts-node": "8.1.0",
+    "ts-jest": "24.0.2",    
     "tsconfig-paths": "3.8.0",
     "tslint": "5.16.0",
     "typescript": "3.4.3",

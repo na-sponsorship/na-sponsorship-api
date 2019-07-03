@@ -9,13 +9,11 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
 } from '@nestjs/common';
-import { SponsorsService } from 'src/services/sponsors.service';
+import { SponsorsService } from '../services/sponsors.service';
 import { InsertResult } from 'typeorm';
-import { createSponsorDTO } from 'src/dto/sponsors/createSponsor.dto';
-import { Sponsor } from 'src/entities/sponsor.entity';
-import { requestCodeDTO } from 'src/dto/sponsors/requestCode.dto';
-import { MailerService } from 'src/modules/shared/services/mailer.service';
-import { VerifyCodeDTO } from 'src/dto/sponsors/verifyCode.dto';
+import { requestCodeDTO } from '../dto/sponsors/requestCode.dto';
+import { MailerService } from '../modules/shared/services/mailer.service';
+import { VerifyCodeDTO } from '../dto/sponsors/verifyCode.dto';
 
 @Controller('sponsors')
 export class SponsorsController {

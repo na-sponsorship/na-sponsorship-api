@@ -22,8 +22,8 @@
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migration:generate": "yarn run typeorm migration:generate -d db/migrate",
     "migration:create": "yarn run typeorm migration:create -d db/migrate",
-    "migration:run": "yarn run typeorm migration:run",
-    "migration:show": "yarn run typeorm migration:show",
+    "migrations:run": "yarn run typeorm migration:run",
+    "migrations:show": "yarn run typeorm migration:show",
     "schema:drop": "yarn run typeorm schema:drop",
     "schema:sync": "yarn run typeorm schema:sync"
   },

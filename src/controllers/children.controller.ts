@@ -8,6 +8,7 @@ import {
   Delete,
   UseInterceptors,
   ClassSerializerInterceptor,
+  Query,
 } from '@nestjs/common';
 import { InsertResult } from 'typeorm';
 import { filter } from 'lodash';
@@ -16,6 +17,7 @@ import { ChildrenService } from '../services/children.service';
 import { Child } from '../entities/child.entity';
 import { CreateChildDTO } from '../dto/children/createChild.dto';
 import { requestCodeDTO } from 'src/dto/sponsors/requestCode.dto';
+import { Pagination } from 'nestjs-typeorm-paginate';
 
 @Controller('children')
 export class ChildrenController {
@@ -23,8 +25,14 @@ export class ChildrenController {
 
   @UseInterceptors(ClassSerializerInterceptor)
   @Get()
-  async findAll(): Promise<Child[]> {
-    return await this.childrenService.findAll();
+  async findAll(
+    @Query('page') page: number = 0,
+    @Query('limit') limit: number = 5,
+  ): Promise<Pagination<Child>> {
+    return await this.childrenService.paginate({
+      page,
+      limit,
+    });
   }
 
   @Get('/needingSponsorship')

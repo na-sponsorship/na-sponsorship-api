@@ -2,6 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Child } from '../entities/child.entity';
 import { Repository, InsertResult } from 'typeorm';
+import {
+  paginate,
+  Pagination,
+  IPaginationOptions,
+} from 'nestjs-typeorm-paginate';
 import { CreateChildDTO } from '../dto/children/createChild.dto';
 
 @Injectable()
@@ -11,6 +16,9 @@ export class ChildrenService {
     private readonly childRepository: Repository<Child>,
   ) {}
 
+  async paginate(options: IPaginationOptions): Promise<Pagination<Child>> {
+    return await paginate<Child>(this.childRepository, options);
+  }
   async findAll(): Promise<Child[]> {
     return await this.childRepository.find();
   }

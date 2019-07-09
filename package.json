@@ -38,13 +38,14 @@
     "class-validator": "^0.9.1",
     "express-session": "^1.16.2",
     "lodash": "^4.17.11",
+    "nestjs-typeorm-paginate": "^0.1.8",
     "pg": "^7.11.0",
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
     "rxjs": "^6.3.3",
     "stripe": "^7.1.0",
-    "typeorm": "^0.2.18",
-    "ts-node": "8.1.0"
+    "ts-node": "8.1.0",
+    "typeorm": "^0.2.18"
   },
   "devDependencies": {
     "@nestjs/testing": "^6.0.0",
@@ -59,7 +60,7 @@
     "nodemon": "^1.18.9",
     "prettier": "^1.15.3",
     "supertest": "^3.4.1",
-    "ts-jest": "24.0.2",    
+    "ts-jest": "24.0.2",
     "tsconfig-paths": "3.8.0",
     "tslint": "5.16.0",
     "typescript": "3.4.3",

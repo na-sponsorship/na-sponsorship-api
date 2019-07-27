@@ -6,20 +6,16 @@ import * as path from 'path';
 import { SharedModule } from './modules/shared/shared.module';
 import { RawBodyParserMiddleware } from './middleware/body-parser.middleware';
 import { ChildrenController } from './controllers/children.controller';
-import { ChildrenService } from './services/children.service';
+import { ChildrenService } from './modules/shared/services/children.service';
 import { Child } from './entities/child.entity';
 import { Sponsor } from './entities/sponsor.entity';
 import { SponsorsController } from './controllers/sponsors.controller';
-import { SponsorsService } from './services/sponsors.service';
+import { SponsorsService } from './modules/shared/services/sponsors.service';
 
 @Module({
-  imports: [
-    SharedModule,
-    TypeOrmModule.forRoot(),
-    TypeOrmModule.forFeature([Child, Sponsor]),
-  ],
+  imports: [SharedModule, AdminModule],
   controllers: [ChildrenController, SponsorsController],
-  providers: [ChildrenService, SponsorsService],
+  providers: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

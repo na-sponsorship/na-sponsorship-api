@@ -13,7 +13,7 @@ import {
 import { InsertResult } from 'typeorm';
 import { filter } from 'lodash';
 
-import { ChildrenService } from '../services/children.service';
+import { ChildrenService } from '../modules/shared/services/children.service';
 import { Child } from '../entities/child.entity';
 import { CreateChildDTO } from '../dto/children/createChild.dto';
 import { requestCodeDTO } from 'src/dto/sponsors/requestCode.dto';

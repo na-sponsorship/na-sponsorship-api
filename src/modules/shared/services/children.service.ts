@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Child } from '../entities/child.entity';
+import { Child } from '../../../entities/child.entity';
 import { Repository, InsertResult } from 'typeorm';
 import {
   paginate,
   Pagination,
   IPaginationOptions,
 } from 'nestjs-typeorm-paginate';
-import { CreateChildDTO } from '../dto/children/createChild.dto';
+import { CreateChildDTO } from '../../../dto/children/createChild.dto';
 
 @Injectable()
 export class ChildrenService {

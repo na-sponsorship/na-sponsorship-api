@@ -1,25 +1,21 @@
 import {
   Controller,
-  Get,
   Post,
-  Param,
-  Put,
   Body,
-  Delete,
   UseInterceptors,
   ClassSerializerInterceptor,
 } from '@nestjs/common';
-import { SponsorsService } from '../services/sponsors.service';
+import { SponsorsService } from '../modules/shared/services/sponsors.service';
 import { InsertResult } from 'typeorm';
 import { requestCodeDTO } from '../dto/sponsors/requestCode.dto';
-import { MailerService } from '../modules/shared/services/mailer.service';
+import { MailgunService } from '../modules/shared/services/vendors/mailgun.service';
 import { VerifyCodeDTO } from '../dto/sponsors/verifyCode.dto';
 
 @Controller('sponsors')
 export class SponsorsController {
   constructor(
     private readonly sponsorService: SponsorsService,
-    private readonly mailerService: MailerService,
+    private readonly mailerService: MailgunService,
   ) {}
 
   @UseInterceptors(ClassSerializerInterceptor)
@@ -41,4 +37,3 @@ export class SponsorsController {
     return await this.sponsorService.verifyCode(verifyCodeDTO);
   }
 }
-

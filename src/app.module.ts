@@ -11,6 +11,7 @@ import { Child } from './entities/child.entity';
 import { Sponsor } from './entities/sponsor.entity';
 import { SponsorsController } from './controllers/sponsors.controller';
 import { SponsorsService } from './modules/shared/services/sponsors.service';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [SharedModule, AdminModule],

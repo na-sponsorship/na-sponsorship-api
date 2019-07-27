@@ -1,16 +1,15 @@
 import { Module } from '@nestjs/common';
 
 import { StripeController } from './controllers/stripe.controller';
-import { StripeService } from './services/stripe.service';
-import { MailerService } from './services/mailer.service';
+import { StripeService } from './services/vendors/stripe.service';
+import { MailgunService } from './services/vendors/mailgun.service';
 
 @Module({
-  imports: [],
   controllers: [StripeController],
   providers: [
-    StripeService,
-    MailerService,
   ],
-  exports: [MailerService]
+  controllers: [StripeController],
+  providers: [StripeService, MailgunService, ChildrenService, SponsorsService],
+  exports: [MailgunService, StripeService, ChildrenService, SponsorsService],
 })
 export class SharedModule { }

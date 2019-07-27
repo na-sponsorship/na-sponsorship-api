@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class MailerService {
+export class MailgunService {
   constructor() {
-    console.log('initializing mailer')
+    
   }
 
   async sendEmail(code: string) {

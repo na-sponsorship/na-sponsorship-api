@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Headers, Req, Request } from '@nestjs/common';
 import * as Stripe from 'stripe';
 
-import { StripeService } from '../services/stripe.service';
+import { StripeService } from '../services/vendors/stripe.service';
 
 @Controller('/stripe')
 export class StripeController {

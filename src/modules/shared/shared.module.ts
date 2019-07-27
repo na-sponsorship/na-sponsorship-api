@@ -6,8 +6,8 @@ import { MailgunService } from './services/vendors/mailgun.service';
 import { ChildrenService } from './services/children.service';
 import { SponsorsService } from './services/sponsors.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Child } from 'src/entities/child.entity';
-import { Sponsor } from 'src/entities/sponsor.entity';
+import { Child } from '../../entities/child.entity';
+import { Sponsor } from '../../entities/sponsor.entity';
 
 @Module({
   imports: [

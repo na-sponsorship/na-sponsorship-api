@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, InsertResult } from 'typeorm';
 import { Sponsor } from '../../../entities/sponsor.entity';
-import { createSponsorDTO } from 'src/dto/sponsors/createSponsor.dto';
-import { requestCodeDTO } from 'src/dto/sponsors/requestCode.dto';
-import { VerifyCodeDTO } from 'src/dto/sponsors/verifyCode.dto';
+import { createSponsorDTO } from '../../../dto/sponsors/createSponsor.dto';
+import { requestCodeDTO } from '../../../dto/sponsors/requestCode.dto';
+import { VerifyCodeDTO } from '../../../dto/sponsors/verifyCode.dto';
 
 @Injectable()
 export class SponsorsService

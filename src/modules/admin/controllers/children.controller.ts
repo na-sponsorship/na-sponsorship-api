@@ -6,8 +6,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { Pagination } from 'nestjs-typeorm-paginate';
-import { Child } from 'src/entities/child.entity';
-import { ChildrenService } from 'src/modules/shared/services/children.service';
+import { Child } from '../../../entities/child.entity';
+import { ChildrenService } from '../../../modules/shared/services/children.service';
 
 @Controller('admin/children')
 export class ChildrenController {

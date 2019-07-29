@@ -4,9 +4,10 @@ import { SharedModule } from '../shared/shared.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Child } from '../../entities/child.entity';
 import { Sponsor } from '../../entities/sponsor.entity';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [SharedModule, TypeOrmModule.forFeature([Child, Sponsor])],
+  imports: [SharedModule, AuthModule, TypeOrmModule.forFeature([Child, Sponsor])],
   controllers: [ChildrenController],
   providers: [],
 })

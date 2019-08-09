@@ -5,9 +5,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Child } from '../../entities/child.entity';
 import { Sponsor } from '../../entities/sponsor.entity';
 import { AuthModule } from '../auth/auth.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
-  imports: [SharedModule, AuthModule, TypeOrmModule.forFeature([Child, Sponsor])],
+  imports: [
+    MulterModule.register({ dest: './uploads' }),
+    SharedModule,
+    AuthModule,
+    TypeOrmModule.forFeature([Child, Sponsor]),
+  ],
   controllers: [ChildrenController],
   providers: [],
 })

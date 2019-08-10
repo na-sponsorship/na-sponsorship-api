@@ -5,7 +5,10 @@ import {
   ClassSerializerInterceptor,
   Query,
   UseGuards,
+  Post,
+  UploadedFile,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { Child } from '../../../entities/child.entity';
 import { ChildrenService } from '../../../modules/shared/services/children.service';
@@ -23,5 +26,10 @@ export class ChildrenController {
     @Query('limit') limit: number = 10,
   ): Promise<Pagination<Child>> {
     return await this.childrenService.paginate({ page, limit });
+  }
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('filepond'))
+  uploadImage(@UploadedFile() file): number {
+    return 1;
   }
 }

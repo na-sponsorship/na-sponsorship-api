@@ -27,6 +27,12 @@ export class ChildrenController {
   ): Promise<Pagination<Child>> {
     return await this.childrenService.paginate({ page, limit });
   }
+
+  @Post()
+  create(): number {
+    return 1;
+  }
+
   @Post('upload')
   @UseInterceptors(FileInterceptor('filepond'))
   uploadImage(@UploadedFile() file): number {

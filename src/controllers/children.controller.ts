@@ -48,23 +48,4 @@ export class ChildrenController {
   async findOne(@Param('id') id: number): Promise<Child> {
     return await this.childrenService.findOne(id);
   }
-
-  @Post()
-  async create(@Body() child: CreateChildDTO): Promise<InsertResult> {
-    const result: InsertResult = await this.childrenService.create(child);
-
-    // return await this.findOne(result.identifiers[0]);
-    // return await this.childService.create(result);
-    return result;
-  }
-
-  @Put(':id')
-  update(@Param('id') id: number, @Body() child: any): string {
-    return 'this updates a chils';
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: number): string {
-    return 'child was removed';
-  }
 }

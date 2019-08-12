@@ -31,11 +31,11 @@ export class ChildrenService {
     return await this.childRepository.insert(child);
   }
 
-  async update(id: number, child: Child): Promise<Child> {
-    return null;
+  async save(child: Child) {
+    await this.childRepository.save(child);
   }
 
-  async remove(id: number): Promise<Child> {
-    return null;
+  async remove(child: Child) {
+    await this.childRepository.remove(child);
   }
 }

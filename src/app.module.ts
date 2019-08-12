@@ -13,8 +13,15 @@ import { SponsorsController } from './controllers/sponsors.controller';
 import { SponsorsService } from './modules/shared/services/sponsors.service';
 import { AdminModule } from './modules/admin/admin.module';
 
+import { ServeStaticModule } from '@nestjs/serve-static';
 @Module({
-  imports: [SharedModule, AdminModule],
+  imports: [
+    ServeStaticModule.forRoot({
+      rootPath: path.join(__dirname, '..', 'uploads'),
+    }),
+    SharedModule,
+    AdminModule,
+  ],
   controllers: [ChildrenController, SponsorsController],
   providers: [],
 })

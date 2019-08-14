@@ -15,7 +15,7 @@ import { User } from './entities/user.entity';
     JwtModule.registerAsync({
       useFactory: () => ({
         secret: process.env.JWT_SECRET,
-        signOptions: { expiresIn: '600s' },
+        signOptions: { expiresIn: '10800s' },
       }),
     }),
   ],

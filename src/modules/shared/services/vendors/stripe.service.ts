@@ -9,10 +9,12 @@ export class StripeService {
     this.stripe = new Stripe(process.env.STRIPE_APIKEY);
   }
 
-  createCustomer(customer: Stripe.customers.ICustomerCreationOptions): string {
-    // const customer = await Stripe.resources.
-    return 'create customer';
-    // no-op
+  async createCustomer(
+    customer: Stripe.customers.ICustomerCreationOptions,
+  ): Promise<string> {
+    const CUSTOMER = await this.stripe.customers.create(customer);
+
+    return CUSTOMER.id;
   }
 
   async createProduct(

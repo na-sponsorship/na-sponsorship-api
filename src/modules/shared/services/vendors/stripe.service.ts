@@ -5,16 +5,22 @@ import * as Stripe from 'stripe';
 export class StripeService {
   private readonly stripe: Stripe;
 
-  constructor() {}
+  constructor() {
+    this.stripe = new Stripe(process.env.STRIPE_APIKEY);
+  }
 
-  createCustomer(customer: Stripe.customers.ICustomer): string {
+  createCustomer(customer: Stripe.customers.ICustomerCreationOptions): string {
     // const customer = await Stripe.resources.
     return 'create customer';
     // no-op
   }
 
-  createProduct(product: Stripe.products.IProduct) {
-    // no-op
+  async createProduct(
+    product: Stripe.products.IProductCreationOptions,
+  ): Promise<string> {
+    const PRODUCT = await this.stripe.products.create(product);
+
+    return PRODUCT.id;
   }
 
   public verifyEvent(

@@ -14,15 +14,20 @@ import { Pagination } from 'nestjs-typeorm-paginate';
 import { AuthGuard } from '@nestjs/passport';
 import { InsertResult } from 'typeorm';
 import { get } from 'lodash';
+import * as Stripe from 'stripe';
 
 import { Child } from '../../../entities/child.entity';
 import { ChildrenService } from '../../../modules/shared/services/children.service';
 import { CreateChildDTO } from '../dto/children/createChild.dto';
+import { StripeService } from '../../shared/services/vendors/stripe.service';
 
 @UseGuards(AuthGuard())
 @Controller('admin/children')
 export class ChildrenController {
-  constructor(private readonly childrenService: ChildrenService) {}
+  constructor(
+    private readonly childrenService: ChildrenService,
+    private readonly stripeService: StripeService,
+  ) {}
 
   @UseInterceptors(ClassSerializerInterceptor)
   @Get()
@@ -34,10 +39,25 @@ export class ChildrenController {
   }
 
   @Post()
-  async create(@Body() child: CreateChildDTO): Promise<InsertResult> {
-    const result: InsertResult = await this.childrenService.create(child);
+  async create(@Body() childDto: CreateChildDTO): Promise<Child> {
+    const childId: number = (await this.childrenService.create(childDto))
+      .identifiers[0].id;
 
-    return result.identifiers[0].id;
+    const child: Child = await this.childrenService.findOne(childId);
+
+    const product: Stripe.products.IProductCreationOptions = {
+      name: `${child.firstName} ${child.lastName} (Child)`,
+      type: 'service',
+    };
+
+    const stripeProduct: string = await this.stripeService.createProduct(
+      product,
+    );
+
+    child.stripeProduct = stripeProduct;
+    await this.childrenService.save(child);
+
+    return child;
   }
 
   @Post('upload')

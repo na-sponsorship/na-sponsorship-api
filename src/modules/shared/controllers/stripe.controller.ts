@@ -11,24 +11,6 @@ export class StripeController {
     this.stripeService = stripeService;
   }
 
-  @Post()
-  getHello(): string {
-    const customer: Stripe.customers.ICustomer = {
-      address: null,
-      created: 0,
-      currency: null,
-      default_source: null,
-      delinquent: false,
-      livemode: false,
-      shipping: null,
-      subscriptions: null,
-      metadata: null,
-      id: null,
-      object: null,
-    };
-    return this.stripeService.createCustomer(customer);
-  }
-
   @Post('/webhook')
   webhook(@Body() req: any, @Headers('stripe-signature') stripeSignature: any): void {
     const event: Stripe.events.IEvent = this.stripeService.verifyEvent(req, stripeSignature);

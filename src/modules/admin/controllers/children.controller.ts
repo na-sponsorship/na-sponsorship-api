@@ -50,11 +50,16 @@ export class ChildrenController {
       type: 'service',
     };
 
-    const stripeProduct: string = await this.stripeService.createProduct(
+    // Create product
+    const stripeProductId: string = await this.stripeService.createProduct(
       product,
     );
 
-    child.stripeProduct = stripeProduct;
+    // Add Pricing plan
+    await this.stripeService.addPricingPlan(3900, stripeProductId);
+
+    // Update DB with strip Product
+    child.stripeProduct = stripeProductId;
     await this.childrenService.save(child);
 
     return child;

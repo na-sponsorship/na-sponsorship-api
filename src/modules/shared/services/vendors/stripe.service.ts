@@ -11,10 +11,8 @@ export class StripeService {
 
   async createCustomer(
     customer: Stripe.customers.ICustomerCreationOptions,
-  ): Promise<string> {
-    const CUSTOMER = await this.stripe.customers.create(customer);
-
-    return CUSTOMER.id;
+  ): Promise<Stripe.customers.ICustomer> {
+    return await this.stripe.customers.create(customer);
   }
 
   async createProduct(
@@ -23,6 +21,17 @@ export class StripeService {
     const PRODUCT = await this.stripe.products.create(product);
 
     return PRODUCT.id;
+  }
+
+  async addPricingPlan(amount: number, productId: string): Promise<void> {
+    const PLAN: Stripe.plans.IPlanCreationOptions = {
+      currency: 'USD',
+      interval: 'month',
+      product: productId,
+      amount,
+    };
+
+    await this.stripe.plans.create(PLAN);
   }
 
   public verifyEvent(

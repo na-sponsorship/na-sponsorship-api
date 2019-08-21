@@ -12,7 +12,6 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { AuthGuard } from '@nestjs/passport';
-import { InsertResult } from 'typeorm';
 import { get } from 'lodash';
 import * as Stripe from 'stripe';
 

@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, InsertResult } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Sponsor } from '../../../entities/sponsor.entity';
-import { createSponsorDTO } from '../../../dto/sponsors/createSponsor.dto';
 import { requestCodeDTO } from '../../../dto/sponsors/requestCode.dto';
 import { VerifyCodeDTO } from '../../../dto/sponsors/verifyCode.dto';
 
@@ -22,9 +21,9 @@ export class SponsorsService
     return await this.sponsorRepository.findOne(id);
   }
 
-  async create(sponsor: createSponsorDTO): Promise<InsertResult> {
-    return await this.sponsorRepository.insert(sponsor);
-  }
+  // async create(sponsor: createSponsorDTO): Promise<InsertResult> {
+  //   return await this.sponsorRepository.insert(sponsor);
+  // }
 
   async generateCode(requestCodeDTO: requestCodeDTO): Promise<string> {
     console.log('generating random code')

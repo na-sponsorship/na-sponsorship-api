@@ -34,6 +34,25 @@ export class StripeService {
     await this.stripe.plans.create(PLAN);
   }
 
+  async getPlans(productId: string): Promise<Stripe.IList<Stripe.plans.IPlan>> {
+    return await this.stripe.plans.list({
+      limit: 1,
+      product: productId,
+    });
+  }
+
+  async createSubscription(
+    subscription: Stripe.subscriptions.ISubscriptionCreationOptions,
+  ): Promise<Stripe.subscriptions.ISubscription> {
+    return await this.stripe.subscriptions.create(subscription);
+  }
+
+  async createCharge(
+    charge: Stripe.charges.IChargeCreationOptions,
+  ): Promise<Stripe.charges.ICharge> {
+    return await this.stripe.charges.create(charge);
+  }
+
   public verifyEvent(
     rawEvent: string,
     signature: string,

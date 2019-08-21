@@ -2,18 +2,22 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Child } from '../../../entities/child.entity';
 import { Repository, InsertResult } from 'typeorm';
+import * as Stripe from 'stripe';
+
 import {
   paginate,
   Pagination,
   IPaginationOptions,
 } from 'nestjs-typeorm-paginate';
 import { CreateChildDTO } from '../../../dto/children/createChild.dto';
+import { StripeService } from './vendors/stripe.service';
 
 @Injectable()
 export class ChildrenService {
   constructor(
     @InjectRepository(Child)
     private readonly childRepository: Repository<Child>,
+    private readonly stripeService: StripeService,
   ) {}
 
   async paginate(options: IPaginationOptions): Promise<Pagination<Child>> {
@@ -37,5 +41,13 @@ export class ChildrenService {
 
   async remove(child: Child) {
     await this.childRepository.remove(child);
+  }
+
+  async getPricingPlan(child: Child): Promise<Stripe.plans.IPlan> {
+    const stripePlans: Stripe.IList<
+      Stripe.plans.IPlan
+    > = await this.stripeService.getPlans(child.stripeProduct);
+
+    return stripePlans.data[0];
   }
 }

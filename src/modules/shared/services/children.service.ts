@@ -43,6 +43,12 @@ export class ChildrenService {
     await this.childRepository.remove(child);
   }
 
+  async removeById(id: number) {
+    const child = await this.childRepository.findOne(id);
+
+    return await this.childRepository.remove(child);
+  }
+
   async getPricingPlan(child: Child): Promise<Stripe.plans.IPlan> {
     const stripePlans: Stripe.IList<
       Stripe.plans.IPlan

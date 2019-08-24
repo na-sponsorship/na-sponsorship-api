@@ -8,6 +8,8 @@ import {
   Post,
   UploadedFile,
   Body,
+  Delete,
+  Param,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Pagination } from 'nestjs-typeorm-paginate';
@@ -76,5 +78,10 @@ export class ChildrenController {
         : file.location;
 
     await this.childrenService.save(child);
+  }
+
+  @Delete(':id')
+  async remove(@Param() params) {
+    return await this.childrenService.removeById(params.id);
   }
 }

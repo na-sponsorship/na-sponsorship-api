@@ -10,11 +10,11 @@ enum Gender {
   Female = 'female',
 }
 export class CreateChildDTO {
-  @IsNotEmpty() readonly firstName: any;
-  @IsNotEmpty() readonly lastName: any;
-  @IsDateString() readonly dateOfBirth: any;
-  @IsNumberString() readonly grade: any;
-  @IsNotEmpty() readonly story: any;
-  @IsEnum(Gender) readonly gender: any;
-  @IsNumberString() readonly sponsorsNeeded: any;
+  readonly firstName: any;
+  readonly lastName: any;
+  readonly dateOfBirth: any;
+  readonly grade: any;
+  readonly story: any;
+  readonly gender: any;
+  readonly sponsorsNeeded: any;
 }

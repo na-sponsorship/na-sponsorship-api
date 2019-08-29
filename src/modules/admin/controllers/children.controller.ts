@@ -40,7 +40,7 @@ export class ChildrenController {
   }
 
   @Post()
-  async create(@Body() childDto: CreateChildDTO): Promise<Child> {
+  async create(@Body() childDto: CreateChildDTO): Promise<number> {
     const childId: number = (await this.childrenService.create(childDto))
       .identifiers[0].id;
 
@@ -63,7 +63,7 @@ export class ChildrenController {
     child.stripeProduct = stripeProductId;
     await this.childrenService.save(child);
 
-    return child;
+    return child.id;
   }
 
   @Post('upload')
@@ -72,10 +72,7 @@ export class ChildrenController {
     const childId = get(JSON.parse(fileMeta), 'child-id', -1);
     const child = await this.childrenService.findOne(childId);
 
-    child.image =
-      process.env.NODE_ENV === 'local'
-        ? `http://0.0.0.0:${process.env.PORT}/${file.filename}`
-        : file.location;
+    child.image = file.public_id;
 
     await this.childrenService.save(child);
   }

@@ -8,6 +8,7 @@ import { SponsorsService } from './services/sponsors.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Child } from '../../entities/child.entity';
 import { Sponsor } from '../../entities/sponsor.entity';
+import { CloudinaryService } from './services/vendors/cloudinary.service';
 
 @Module({
   imports: [
@@ -15,7 +16,19 @@ import { Sponsor } from '../../entities/sponsor.entity';
     TypeOrmModule.forFeature([Child, Sponsor]),
   ],
   controllers: [StripeController],
-  providers: [StripeService, MailgunService, ChildrenService, SponsorsService],
-  exports: [MailgunService, StripeService, ChildrenService, SponsorsService],
+  providers: [
+    StripeService,
+    MailgunService,
+    CloudinaryService,
+    ChildrenService,
+    SponsorsService,
+  ],
+  exports: [
+    MailgunService,
+    StripeService,
+    CloudinaryService,
+    ChildrenService,
+    SponsorsService,
+  ],
 })
 export class SharedModule {}

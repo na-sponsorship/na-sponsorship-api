@@ -21,7 +21,7 @@ import { Child } from '../../../entities/child.entity';
 import { ChildrenService } from '../../../modules/shared/services/children.service';
 import { CreateChildDTO } from '../dto/children/createChild.dto';
 import { StripeService } from '../../shared/services/vendors/stripe.service';
-import { CloudinaryService } from 'src/modules/shared/services/vendors/cloudinary.service';
+import { CloudinaryService } from '../../shared/services/vendors/cloudinary.service';
 
 @UseGuards(AuthGuard())
 @Controller('admin/children')
@@ -80,7 +80,7 @@ export class ChildrenController {
   }
 
   @Delete(':id')
-  async remove(@Param() params) {
+  async delete(@Param() params) {
     const child: Child = await this.childrenService.findOne(params.id);
 
     await this.cloudinaryService.destroy(child.image);

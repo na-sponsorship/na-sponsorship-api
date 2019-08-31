@@ -10,6 +10,7 @@ import {
   Body,
   Delete,
   Param,
+  Put,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Pagination } from 'nestjs-typeorm-paginate';
@@ -22,6 +23,9 @@ import { ChildrenService } from '../../../modules/shared/services/children.servi
 import { CreateChildDTO } from '../dto/children/createChild.dto';
 import { StripeService } from '../../shared/services/vendors/stripe.service';
 import { CloudinaryService } from '../../shared/services/vendors/cloudinary.service';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UpdateChildDTO } from '../dto/children/updateChild.dto';
 
 @UseGuards(AuthGuard())
 @Controller('admin/children')
@@ -30,6 +34,8 @@ export class ChildrenController {
     private readonly childrenService: ChildrenService,
     private readonly stripeService: StripeService,
     private readonly cloudinaryService: CloudinaryService,
+    @InjectRepository(Child)
+    private readonly childRepository: Repository<Child>,
   ) {}
 
   @UseInterceptors(ClassSerializerInterceptor)
@@ -43,13 +49,10 @@ export class ChildrenController {
 
   @Post()
   async create(@Body() childDto: CreateChildDTO): Promise<number> {
-    const childId: number = (await this.childrenService.create(childDto))
-      .identifiers[0].id;
-
-    const child: Child = await this.childrenService.findOne(childId);
+    const newChild: Child = await this.childRepository.create(childDto);
 
     const product: Stripe.products.IProductCreationOptions = {
-      name: `${child.firstName} ${child.lastName} (Child)`,
+      name: `${newChild.firstName} ${newChild.lastName} (Child)`,
       type: 'service',
     };
 
@@ -62,17 +65,25 @@ export class ChildrenController {
     await this.stripeService.addPricingPlan(3900, stripeProductId);
 
     // Update DB with strip Product
-    child.stripeProduct = stripeProductId;
-    await this.childrenService.save(child);
+    newChild.stripeProduct = stripeProductId;
+    await this.childRepository.save(newChild);
 
-    return child.id;
+    return this.childRepository.getId(newChild);
   }
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('filepond'))
-  async uploadImage(@UploadedFile() file, @Body('filepond') fileMeta) {
-    const childId = get(JSON.parse(fileMeta), 'child-id', -1);
+  async uploadImage(@UploadedFile() file, @Body('filepond') fileMetaRaw) {
+    const fileMeta = JSON.parse(fileMetaRaw);
+    const childId = get(fileMeta, 'child-id', -1);
+    const isEditing = get(fileMeta, 'is-editing', false);
+
     const child = await this.childrenService.findOne(childId);
+
+    if (isEditing) {
+      // Delete previous image from cloudinary
+      this.cloudinaryService.destroy(child.image);
+    }
 
     child.image = file.public_id;
 
@@ -86,5 +97,12 @@ export class ChildrenController {
     await this.cloudinaryService.destroy(child.image);
 
     return await this.childrenService.removeById(params.id);
+  }
+
+  @Put()
+  async update(@Body() updateChildDto: UpdateChildDTO): Promise<number> {
+    await this.childRepository.update(updateChildDto.id, updateChildDto);
+
+    return updateChildDto.id;
   }
 }

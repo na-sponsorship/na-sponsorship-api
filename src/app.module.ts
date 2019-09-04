@@ -7,6 +7,7 @@ import { ChildrenController } from './controllers/children.controller';
 import { SponsorsController } from './controllers/sponsors.controller';
 import { SharedModule } from './modules/shared/shared.module';
 import { AdminModule } from './modules/admin/admin.module';
+import { AppController } from './controllers/app.controller';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { AdminModule } from './modules/admin/admin.module';
     SharedModule,
     AdminModule,
   ],
-  controllers: [ChildrenController, SponsorsController],
+  controllers: [AppController, ChildrenController, SponsorsController],
   providers: [],
 })
 export class AppModule implements NestModule {

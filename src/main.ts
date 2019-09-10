@@ -16,8 +16,10 @@ async function bootstrap() {
     bodyParser: true,
     cors: true,
   });
+  const p = join(__dirname, '..', 'public');
+  console.log(`public folder: ${p}`)
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
-  app.useStaticAssets(join(__dirname, '..', 'public'));
+  app.useStaticAssets(p);
   await app.listen(process.env.PORT);
 }
 bootstrap();

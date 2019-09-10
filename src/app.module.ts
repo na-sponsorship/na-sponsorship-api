@@ -10,13 +10,7 @@ import { AdminModule } from './modules/admin/admin.module';
 import { AppController } from './controllers/app.controller';
 
 @Module({
-  imports: [
-    ServeStaticModule.forRoot({
-      rootPath: path.join(__dirname, '..', 'public'),
-    }),
-    SharedModule,
-    AdminModule,
-  ],
+  imports: [SharedModule, AdminModule],
   controllers: [AppController, ChildrenController, SponsorsController],
   providers: [],
 })

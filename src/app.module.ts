@@ -12,7 +12,7 @@ import { AppController } from './controllers/app.controller';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: path.join(__dirname, '..', 'uploads'),
+      rootPath: path.join(__dirname, '..', 'public'),
     }),
     SharedModule,
     AdminModule,

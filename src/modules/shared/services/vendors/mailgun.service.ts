@@ -25,7 +25,7 @@ export class MailgunService {
     emailInput: string,
     emailTemplate: string,
   ): Promise<boolean> {
-    const ppp = path.join(`src/emails/src/templates/${emailTemplate}`);
+    const ppp = path.join(`emails/src/templates/${emailTemplate}`);
     const file = fs.readFileSync(ppp, { encoding: 'utf-8' });
 
     const html = await maizzle.render(file, {

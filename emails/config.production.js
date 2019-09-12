@@ -4,23 +4,23 @@ module.exports = {
     destination: {
       path: "build_production",
     },
-    layout: "src/emails/src/layouts/default.njk",
+    layout: "emails/src/layouts/default.njk",
     tailwind: {
-      config: "src/emails/tailwind.config.js",
-      css: "src/emails/src/assets/css/main.css",
+      config: "emails/tailwind.config.js",
+      css: "emails/src/assets/css/main.css",
     },
     templates: {
       filetypes: "html|njk|nunjucks",
-      source: "src/emails/src/templates",
+      source: "emails/src/templates",
     },
   },
   cleanup: {
     preferBgColorAttribute: true,
     purgeCSS: {
       content: [
-        "src/emails/src/layouts/**/*.*",
-        "src/emails/src/partials/**/*.*",
-        "src/emails/src/components/**/*.*",
+        "emails/src/layouts/**/*.*",
+        "emails/src/partials/**/*.*",
+        "emails/src/components/**/*.*",
       ],
     },
     removeUnusedCSS: {

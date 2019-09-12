@@ -1,0 +1,43 @@
+--- title: "Welcome to Noah's Arc" ---
+
+{% block template %}
+
+  <table class="wrapper w-full all-font-sans">
+    <tr>
+      <td align="center" class="bg-white align-middle">
+        <table class="w-600 sm-w-full">
+          <tr>
+            <td class="py-48 sm-py-32 text-center">
+              <a href="https://noahsarc.org">
+                <img src="images/logo-dark@3x.png" width="250" alt="Noah's Arc">
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td align="center" class="sm-px-24">
+              <table class="w-full">
+                <tr>
+                  <td class="bg-gray-100 text-gray-900 text-base p-48 sm-px-24 leading-24 rounded-lg">
+                    <p class="text-xl text-black font-semibold m-0">new message from {{ page.emailInput.firstName }} {{ page.emailInput.lastName }}</p>
+                    <p>{{ page.emailInput.message }}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center text-gray-600 text-xs p-32">
+                    <p class="cursor-default">
+                      <a href="https://noahsarc.org" class="text-blue-500 no-underline hover-underline">Noahs' Arc</a>
+                      &bull;
+                      <a href="https://noahsarc.org/contact" class="text-blue-500 no-underline hover-underline">Contact Us</a>
+
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+{% endblock %}

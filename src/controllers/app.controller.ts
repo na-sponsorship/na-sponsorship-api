@@ -14,7 +14,7 @@ export class AppController {
   constructor(private readonly mailgunService: MailgunService) {}
 
   @Post('contact')
-  async contact(@Body() message: any, @Headers('recaptcha') token) {
+  async contact(@Body() emailInput: any, @Headers('recaptcha') token) {
     const captchaIsValid = await request({
       uri: 'https://www.google.com/recaptcha/api/siteverify',
       method: 'POST',
@@ -23,12 +23,26 @@ export class AppController {
         response: token,
       },
       transform: body => JSON.parse(body),
-    }).then(({ success }) => success);
+    });
 
     if (!captchaIsValid) {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     }
 
-    return await this.mailgunService.sendEmail('Thank you', message.email, message.message);
+    // Send email to Admin
+    await this.mailgunService.sendEmail(
+      'Noah\'s Arc: Contact Form',
+      process.env.ADMIN_EMAIL,
+      emailInput,
+      'contact-form.njk',
+    );
+
+    // Send email to person that used contactform
+    await this.mailgunService.sendEmail(
+      'Thank you for contacting Noah\'s Arc',
+      emailInput.email,
+      emailInput,
+      'contact-form-thankyou.njk',
+    );
   }
 }

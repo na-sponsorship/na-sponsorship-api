@@ -4,9 +4,9 @@ import * as maizzle from '@maizzle/framework';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as deepmerge from 'deepmerge';
-import * as tailwindConfig from '../../../../emails/tailwind.config.js';
-import * as maizzleConfigProduction from '../../../../emails/config.production.js';
-import * as maizzleConfigBase from '../../../../emails/config.js';
+import * as tailwindConfig from '../../../../../emails/tailwind.config.js';
+import * as maizzleConfigProduction from '../../../../../emails/config.production.js';
+import * as maizzleConfigBase from '../../../../../emails/config.js';
 
 @Injectable()
 export class MailgunService {

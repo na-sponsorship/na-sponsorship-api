@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Child } from '../../entities/child.entity';
 import { Sponsor } from '../../entities/sponsor.entity';
 import { CloudinaryService } from './services/vendors/cloudinary.service';
+import { SentryLogger } from '../../../src/sentry.logger';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { CloudinaryService } from './services/vendors/cloudinary.service';
     CloudinaryService,
     ChildrenService,
     SponsorsService,
+    SentryLogger,
   ],
   exports: [
     MailgunService,

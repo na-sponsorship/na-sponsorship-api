@@ -18,7 +18,10 @@
               <table class="w-full">
                 <tr>
                   <td class="bg-gray-100 text-gray-900 text-base p-48 sm-px-24 leading-24 rounded-lg">
-                    <p class="text-xl text-black font-semibold m-0">Message from {{ page.emailInput.firstName }} {{ page.emailInput.lastName }}</p>
+                    <p class="text-xl text-black font-semibold m-0">Message from
+                      {{ page.emailInput.firstName }}
+                      {{ page.emailInput.lastName }}
+                      ({{ page.emailInput.email }})</p>
                     <p>{{ page.emailInput.message }}</p>
                   </td>
                 </tr>

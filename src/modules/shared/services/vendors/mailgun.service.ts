@@ -27,37 +27,50 @@ export class MailgunService {
     emailInput: string,
     emailTemplate: string,
   ): Promise<boolean> {
-    const ppp = path.join(`emails/src/templates/${emailTemplate}`);
-    const file = fs.readFileSync(ppp, { encoding: 'utf-8' });
+    const template = fs.readFileSync(
+      path.join(`emails/src/templates/${emailTemplate}`),
+      { encoding: 'utf-8' },
+    );
 
-    const html = await maizzle.render(file, {
-      tailwind: {
-        config: tailwindConfig,
-      },
-      maizzle: {
-        config: deepmerge(
-          maizzleConfigBase,
-          deepmerge(maizzleConfigProduction, { emailInput }),
-        ),
-      },
-    });
+    try {
+      const html = await maizzle.render(template, {
+        tailwind: {
+          config: tailwindConfig,
+        },
+        maizzle: {
+          config: deepmerge(
+            maizzleConfigBase,
+            deepmerge(maizzleConfigProduction, { emailInput }),
+          ),
+        },
+      });
 
-    return await new Promise((resolve, reject) => {
-      this.mailgun.messages().send(
-        {
-          from: `Noah's Arc <support@noahsarc.org>`,
-          to,
-          subject,
-          html,
-        },
-        err => {
-          if (err) {
-            this.logger.warn(err.message);
-            resolve(true);
-          }
-          resolve(true);
-        },
-      );
-    });
+      try {
+        await new Promise((resolve, reject) => {
+          this.mailgun.messages().send(
+            {
+              from: `Noah's Arc <support@noahsarc.org>`,
+              to,
+              subject,
+              html,
+            },
+            (err: any, data: any) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(data);
+              }
+            },
+          );
+        });
+
+        return true;
+      } catch (err) {
+        this.logger.warn(err.message);
+        return true;
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 }

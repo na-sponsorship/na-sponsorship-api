@@ -25,7 +25,7 @@ export class AppController {
       transform: body => JSON.parse(body),
     });
 
-    if (!captchaIsValid) {
+    if (!captchaIsValid.success) {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     }
 

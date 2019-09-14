@@ -42,7 +42,7 @@ export class AppController {
       'Thank you for contacting Noah\'s Arc',
       emailInput.email,
       emailInput,
-      'contact-form-thankyou.njk',
+      'contact-form-thank-you.njk',
     );
   }
 }

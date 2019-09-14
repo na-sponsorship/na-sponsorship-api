@@ -314,7 +314,7 @@ module.exports = {
     },
     templates: {
       filetypes: "html|njk|nunjucks",
-      source: "src/",
+      source: "src/templates",
     },
   },
 };

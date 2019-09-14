@@ -8,5 +8,10 @@
             "type": "shell",
             "command": "yarn start:debug",
         },
+        {
+            "label": "Emails Serve",
+            "type": "shell",
+            "command": "cd emails && yarn serve",
+        },
     ]
 }

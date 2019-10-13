@@ -38,7 +38,6 @@ export class ChildrenController {
     private readonly childRepository: Repository<Child>,
   ) {}
 
-  @UseInterceptors(ClassSerializerInterceptor)
   @Get()
   async findAll(
     @Query('page') page: number = 0,
@@ -48,7 +47,7 @@ export class ChildrenController {
   }
 
   @Post()
-  async create(@Body() childDto: CreateChildDTO): Promise<number> {
+  async create(@Body() childDto: CreateChildDTO): Promise<Child> {
     const newChild: Child = await this.childRepository.create(childDto);
 
     const product: Stripe.products.IProductCreationOptions = {
@@ -68,20 +67,19 @@ export class ChildrenController {
     newChild.stripeProduct = stripeProductId;
     await this.childRepository.save(newChild);
 
-    return this.childRepository.getId(newChild);
+    return newChild;
   }
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('filepond'))
   async uploadImage(@UploadedFile() file, @Body('filepond') fileMetaRaw) {
     const fileMeta = JSON.parse(fileMetaRaw);
-    const childId = get(fileMeta, 'child-id', -1);
-    const isEditing = get(fileMeta, 'is-editing', false);
+    const childId = get(fileMeta, 'child_id', null);
 
     const child = await this.childrenService.findOne(childId);
 
-    if (isEditing) {
-      // Delete previous image from cloudinary
+    // Delete previous image from cloudinary if it exists
+    if (child.image) {
       this.cloudinaryService.destroy(child.image);
     }
 

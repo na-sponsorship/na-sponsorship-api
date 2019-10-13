@@ -41,11 +41,8 @@ export class ChildrenController {
   ) {}
 
   @Get()
-  async findAll(
-    @Query('page') page: number = 0,
-    @Query('limit') limit: number = 10,
-  ): Promise<Pagination<Child>> {
-    return await this.childrenService.paginate({ page, limit });
+  async findAll(): Promise<Child[]> {
+    return await this.childrenService.findAll();
   }
 
   @Post()

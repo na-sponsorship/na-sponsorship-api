@@ -2,7 +2,6 @@ import {
   Controller,
   Get,
   UseInterceptors,
-  ClassSerializerInterceptor,
   Query,
   UseGuards,
   Post,
@@ -11,6 +10,9 @@ import {
   Delete,
   Param,
   Put,
+  Header,
+  Head,
+  Res,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Pagination } from 'nestjs-typeorm-paginate';
@@ -97,10 +99,25 @@ export class ChildrenController {
     return await this.childrenService.removeById(params.id);
   }
 
-  @Put()
-  async update(@Body() updateChildDto: UpdateChildDTO): Promise<number> {
-    await this.childRepository.update(updateChildDto.id, updateChildDto);
+  @Put(':id')
+  async update(
+    @Param() id,
+    @Body() updateChildDto: UpdateChildDTO,
+  ): Promise<number> {
+    await this.childRepository.update(id, updateChildDto);
 
     return updateChildDto.id;
+  }
+
+  @Get('/loadImage/:publicId')
+  @Header('Content-Type', 'image/jpeg')
+  @Header('Content-Disposition', 'attachment; filename=child.jpg')
+  async loadImage(
+    @Param('publicId') publicId: string,
+    @Res() response,
+  ): Promise<any> {
+    const file = await this.cloudinaryService.getFile(publicId);
+
+    file.pipe(response);
   }
 }

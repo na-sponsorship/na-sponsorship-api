@@ -20,7 +20,14 @@ async function bootstrap() {
     cors: true,
   });
 
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      transformOptions: {
+        strategy: 'excludeAll',
+      },
+    }),
+  );
   app.useStaticAssets(assetPath);
 
   if (process.env.NODE_ENV === 'local') {

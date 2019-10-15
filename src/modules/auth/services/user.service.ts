@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
-import { Repository } from 'typeorm';
+import { Repository, InsertResult } from 'typeorm';
+import { AddUserDTO } from '../dto/addUser.dto';
+import { isUndefined } from 'lodash';
 
 @Injectable()
 export class UserService {
@@ -18,7 +20,21 @@ export class UserService {
     });
   }
 
-  async create(user: User): Promise<User> {
-    return await this.userRepository.save(user);
+  async userExists(username: string): Promise<boolean> {
+    const user: User = await this.findByUsername(username);
+
+    return !isUndefined(user);
+  }
+
+  async create(user: AddUserDTO): Promise<InsertResult> {
+    return await this.userRepository.insert(user);
+  }
+
+  async findAll(): Promise<User[]> {
+    return await this.userRepository.find();
+  }
+
+  async delete(id: number): Promise<void> {
+    await this.userRepository.delete(id);
   }
 }

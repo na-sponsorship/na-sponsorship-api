@@ -2,7 +2,6 @@ import {
   Controller,
   Get,
   UseInterceptors,
-  Query,
   UseGuards,
   Post,
   UploadedFile,
@@ -15,7 +14,6 @@ import {
   Res,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Pagination } from 'nestjs-typeorm-paginate';
 import { AuthGuard } from '@nestjs/passport';
 import { get } from 'lodash';
 import * as Stripe from 'stripe';

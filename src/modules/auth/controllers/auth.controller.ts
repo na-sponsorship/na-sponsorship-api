@@ -49,7 +49,7 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard())
-  @Get('me')
+  @Get('/me')
   getProfile(@Request() req) {
     return req.user;
   }
@@ -61,6 +61,7 @@ export class AuthController {
     return await this.userService.findAll();
   }
 
+  @UseGuards(AuthGuard())
   @Get('/users/:id')
   async delete(@Param('id') id: number) {
     await this.userService.delete(id);

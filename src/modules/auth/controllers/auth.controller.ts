@@ -10,6 +10,7 @@ import {
   Param,
   HttpException,
   HttpStatus,
+  Delete,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from '../services/auth.service';
@@ -62,7 +63,7 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard())
-  @Get('/users/:id')
+  @Delete('/users/:id')
   async delete(
     @CurrentUser() currentUser: User,
     @Param('id') deleteId: number,

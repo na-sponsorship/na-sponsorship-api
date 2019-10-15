@@ -20,7 +20,7 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 
-  @UseGuards(AuthGuard('local'))
+  @UseGuards(AuthGuard())
   @Post('register')
   async register(@Body() user: User): Promise<any> {
     return this.authService.register(user);

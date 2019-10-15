@@ -17,6 +17,7 @@ import { User } from '../entities/user.entity';
 import { UserService } from '../services/user.service';
 import { AddUserDTO } from '../dto/addUser.dto';
 import { InsertResult } from 'typeorm';
+import { CurrentUser } from '../decorators/currentUser.decorator';
 
 @Controller('admin/auth')
 export class AuthController {
@@ -38,7 +39,6 @@ export class AuthController {
     const user: User = new User();
     user.username = addUserDto.username;
     user.password = addUserDto.password;
-    await user.hashPassword();
 
     // Check if this user exists
     if (!(await this.userService.userExists(user.username))) {
@@ -63,7 +63,14 @@ export class AuthController {
 
   @UseGuards(AuthGuard())
   @Get('/users/:id')
-  async delete(@Param('id') id: number) {
-    await this.userService.delete(id);
+  async delete(
+    @CurrentUser() currentUser: User,
+    @Param('id') deleteId: number,
+  ) {
+    if (currentUser.id === Number(deleteId)) {
+      throw new HttpException(`Can't delete own account`, HttpStatus.FORBIDDEN);
+    }
+
+    await this.userService.delete(deleteId);
   }
 }

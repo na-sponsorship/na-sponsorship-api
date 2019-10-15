@@ -14,7 +14,7 @@ import { User } from '../entities/user.entity';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(AuthGuard('local'))
+  @UseGuards(AuthGuard())
   @Post('login')
   async login(@Request() req): Promise<any> {
     return this.authService.login(req.user);

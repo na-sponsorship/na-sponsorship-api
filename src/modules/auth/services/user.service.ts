@@ -26,8 +26,10 @@ export class UserService {
     return !isUndefined(user);
   }
 
-  async create(user: AddUserDTO): Promise<InsertResult> {
-    return await this.userRepository.insert(user);
+  async create(user: AddUserDTO): Promise<User> {
+    const result: InsertResult = await this.userRepository.insert(user);
+
+    return await this.userRepository.findOne(result.identifiers[0].id);
   }
 
   async findAll(): Promise<User[]> {

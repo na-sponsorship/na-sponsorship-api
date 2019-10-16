@@ -36,7 +36,7 @@ export class AuthController {
   @UseGuards(AuthGuard())
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('/register')
-  async register(@Body() addUserDto: AddUserDTO): Promise<InsertResult> {
+  async register(@Body() addUserDto: AddUserDTO): Promise<User> {
     const user: User = new User();
     user.username = addUserDto.username;
     user.password = addUserDto.password;

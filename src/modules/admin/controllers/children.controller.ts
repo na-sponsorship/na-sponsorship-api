@@ -112,9 +112,9 @@ export class ChildrenController {
   async delete(@Param() params) {
     const child: Child = await this.childrenService.findOne(params.id);
 
-    await this.cloudinaryService.destroy(child.image);
+    child.deleted = true;
 
-    return await this.childrenService.removeById(params.id);
+    await this.childrenService.save(child);
   }
 
   @Put(':id')

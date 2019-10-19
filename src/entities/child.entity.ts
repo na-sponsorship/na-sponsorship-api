@@ -24,6 +24,9 @@ export class Child {
   @Column({ nullable: true })
   gender: string;
 
+  @Column({ nullable: true, default: false })
+  deleted: boolean;
+
   @Column({ nullable: true })
   @Exclude()
   stripeProduct: string;

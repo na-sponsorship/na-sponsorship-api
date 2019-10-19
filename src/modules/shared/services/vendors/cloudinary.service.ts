@@ -28,9 +28,9 @@ export class CloudinaryService {
 
     return await new Promise(resolve => {
       request(imageUrl)
-        .pipe(fs.createWriteStream('tmpImage.jpeg'))
+        .pipe(fs.createWriteStream('tmp/tmpImage.jpeg'))
         .on('close', () => {
-          resolve(fs.createReadStream('tmpImage.jpeg'));
+          resolve(fs.createReadStream('tmp/tmpImage.jpeg'));
         });
     });
   }

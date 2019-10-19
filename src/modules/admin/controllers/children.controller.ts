@@ -10,7 +10,6 @@ import {
   Param,
   Put,
   Header,
-  Head,
   Res,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';

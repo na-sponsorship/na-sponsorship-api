@@ -42,30 +42,6 @@ export class ChildrenController {
     return await this.childrenService.findAll();
   }
 
-  @Get('/initStripe/:id')
-  async initStripe(@Param('id') childId: number): Promise<Child> {
-    const child: Child = await this.childRepository.findOne(childId);
-
-    const product: Stripe.products.IProductCreationOptions = {
-      name: `${child.firstName} ${child.lastName} (Child)`,
-      type: 'service',
-    };
-
-    // Create product
-    const stripeProductId: string = await this.stripeService.createProduct(
-      product,
-    );
-
-    // Add Pricing plan
-    await this.stripeService.addPricingPlan(3900, stripeProductId);
-
-    // Update DB with strip Product
-    child.stripeProduct = stripeProductId;
-    await this.childRepository.save(child);
-
-    return child;
-  }
-
   @Post()
   async create(@Body() childDto: CreateChildDTO): Promise<Child> {
     const newChild: Child = await this.childRepository.create(childDto);

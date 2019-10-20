@@ -25,7 +25,7 @@ export class Child {
   gender: string;
 
   @Column({ nullable: true, default: false })
-  deleted: boolean;
+  archived: boolean;
 
   @Column({ nullable: true })
   @Exclude()

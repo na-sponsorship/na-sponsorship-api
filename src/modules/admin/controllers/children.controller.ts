@@ -84,11 +84,20 @@ export class ChildrenController {
     await this.childrenService.save(child);
   }
 
-  @Delete(':id')
-  async delete(@Param() params) {
-    const child: Child = await this.childrenService.findOne(params.id);
+  @Post('archive/:id')
+  async archive(@Param('id') id) {
+    const child: Child = await this.childrenService.findOne(id);
 
-    child.deleted = true;
+    child.archived = true;
+
+    await this.childrenService.save(child);
+  }
+
+  @Post('unarchive/:id')
+  async unarchive(@Param('id') id) {
+    const child: Child = await this.childrenService.findOne(id);
+
+    child.archived = false;
 
     await this.childrenService.save(child);
   }

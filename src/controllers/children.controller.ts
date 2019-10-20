@@ -5,6 +5,8 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   Query,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { filter } from 'lodash';
 
@@ -47,6 +49,12 @@ export class ChildrenController {
 
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<Child> {
-    return await this.childrenService.findOne(id);
+    const child: Child = await this.childrenService.findOne(id);
+
+    if (child.archived) {
+      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    }
+
+    return child;
   }
 }

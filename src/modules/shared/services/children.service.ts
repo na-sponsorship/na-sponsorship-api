@@ -20,8 +20,8 @@ export class ChildrenService {
     private readonly stripeService: StripeService,
   ) {}
 
-  async paginate(options: IPaginationOptions): Promise<Pagination<Child>> {
-    return await paginate<Child>(this.childRepository, options);
+  async paginate(options: IPaginationOptions, searchOptions?: any): Promise<Pagination<Child>> {
+    return await paginate<Child>(this.childRepository, options, searchOptions);
   }
   async findAll(): Promise<Child[]> {
     return await this.childRepository.find();

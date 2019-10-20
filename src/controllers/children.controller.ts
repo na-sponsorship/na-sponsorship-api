@@ -22,10 +22,17 @@ export class ChildrenController {
     @Query('page') page: number = 0,
     @Query('limit') limit: number = 6,
   ): Promise<Pagination<Child>> {
-    return await this.childrenService.paginate({
-      page,
-      limit,
-    });
+    return await this.childrenService.paginate(
+      {
+        page,
+        limit,
+      },
+      {
+        where: {
+          archived: false,
+        },
+      },
+    );
   }
 
   @Get('/needingSponsorship')

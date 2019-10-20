@@ -20,7 +20,10 @@ export class ChildrenService {
     private readonly stripeService: StripeService,
   ) {}
 
-  async paginate(options: IPaginationOptions, searchOptions?: any): Promise<Pagination<Child>> {
+  async paginate(
+    options: IPaginationOptions,
+    searchOptions?: any,
+  ): Promise<Pagination<Child>> {
     return await paginate<Child>(this.childRepository, options, searchOptions);
   }
   async findAll(): Promise<Child[]> {
@@ -55,5 +58,9 @@ export class ChildrenService {
     > = await this.stripeService.getPlans(child.stripeProduct);
 
     return stripePlans.data[0];
+  }
+
+  async getChildrenNeedingSponsorship(): Promise<number> {
+    return await this.childRepository.count({ archived: false });
   }
 }

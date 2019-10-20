@@ -8,7 +8,6 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { filter } from 'lodash';
 
 import { ChildrenService } from '../modules/shared/services/children.service';
 import { Child } from '../entities/child.entity';
@@ -38,13 +37,8 @@ export class ChildrenController {
   }
 
   @Get('/needingSponsorship')
-  async needingSponsorship() {
-    const children: Child[] = await this.childrenService.findAll();
-
-    return filter(
-      children,
-      (child: Child) => child.activeSponsors < child.sponsorsNeeded,
-    ).length;
+  async needingSponsorship(): Promise<number> {
+    return await this.childrenService.getChildrenNeedingSponsorship();
   }
 
   @Get(':id')

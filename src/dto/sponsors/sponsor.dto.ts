@@ -1,8 +1,9 @@
 import { AddressDTO } from '../address.dto';
+import { Expose } from 'class-transformer';
 
 export class SponsorDTO {
-  readonly firstName: string;
-  readonly lastName: string;
-  readonly email: string;
-  readonly address: AddressDTO;
+  @Expose() readonly firstName: string;
+  @Expose() readonly lastName: string;
+  @Expose() readonly email: string;
+  @Expose() readonly address: AddressDTO;
 }

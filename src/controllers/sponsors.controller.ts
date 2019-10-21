@@ -1,6 +1,7 @@
-import { Controller, Post, Body, SerializeOptions, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
+import { Controller, Post, Body, SerializeOptions, UseInterceptors, ClassSerializerInterceptor, HttpException, HttpStatus } from '@nestjs/common';
 import * as Stripe from 'stripe';
-
+import * as dayjs from 'dayjs';
+import * as advancedFormat from 'dayjs/plugin/advancedFormat';
 import { SponsorsService } from '../modules/shared/services/sponsors.service';
 import { MailgunService } from '../modules/shared/services/vendors/mailgun.service';
 import { StripeService } from '../modules/shared/services/vendors/stripe.service';
@@ -8,14 +9,21 @@ import { CreateSponsorDTO } from '../dto/sponsors/createSponsor.dto';
 import { ChildrenService } from '../modules/shared/services/children.service';
 import { Child } from '../entities/child.entity';
 import { PAYMENT_TYPES } from 'src/dto/sponsors/payment.dto';
+import { CloudinaryService } from 'src/modules/shared/services/vendors/cloudinary.service';
+import { INewSubscriptionEmail } from 'src/interfaces/new-subscription-email.interface';
+import { Repository } from 'typeorm';
+import { Sponsor } from 'src/entities/sponsor.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
+dayjs.extend(advancedFormat);
 @Controller('sponsors')
 export class SponsorsController {
   constructor(
-    private readonly sponsorService: SponsorsService,
     private readonly childrenService: ChildrenService,
     private readonly mailerService: MailgunService,
     private readonly stripeService: StripeService,
+    private readonly cloudinaryService: CloudinaryService,
+    @InjectRepository(Sponsor) private readonly sponsorRepository: Repository<Sponsor>,
   ) {}
 
   @UseInterceptors(ClassSerializerInterceptor)
@@ -23,6 +31,11 @@ export class SponsorsController {
   async create(@Body() sponsor: CreateSponsorDTO) {
     const child: Child = await this.childrenService.findOne(sponsor.childId);
     const childPricingPlan: Stripe.plans.IPlan = await this.childrenService.getPricingPlan(child);
+
+    if (child.archived) {
+      throw new HttpException('Sponsorship not allowed', HttpStatus.FORBIDDEN);
+    }
+
     /**
      * @TODO Don't allow multiple customers with same email address
      * 1. Save sponsors (stripeCustomerId and email) on our end
@@ -52,7 +65,20 @@ export class SponsorsController {
 
         await this.stripeService.createSubscription(SUBSCRIPTION);
 
-        // Save this sponsor to our db for future account feature and to prevent duplicate customers
+        // Send Welcome email
+        const email: INewSubscriptionEmail = {
+          childName: child.name,
+          childImage: await this.cloudinaryService.getImageUrl(child.image),
+          firstPaymentDate: dayjs().format('MMMM D, YYYY'),
+          recurringPaymentDate: dayjs().format('Do'),
+          amount: Math.floor(childPricingPlan.amount / 100),
+          summary: `Child Sponsorship${sponsor.payment.extraAmount ? ' + $5 ministry donation' : ''}`,
+        };
+
+        await this.mailerService.sendEmail("Welcome to Noah's Arc", sponsor.sponsor.email, email, 'new-sponsor-welcome-recurring.njk');
+
+        // Create sponsor on local db
+        this.sponsorRepository.insert({ email: sponsor.sponsor.email, stripeCustomer: stripeCustomer.id });
         break;
       }
       case PAYMENT_TYPES.single: {
@@ -77,5 +103,12 @@ export class SponsorsController {
         break;
       }
     }
+
+    child.activeSponsors += 1;
+
+    if (child.activeSponsors >= child.sponsorsNeeded) {
+      child.archived = true;
+    }
+    this.childrenService.save(child);
   }
 }

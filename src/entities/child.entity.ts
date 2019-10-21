@@ -41,4 +41,8 @@ export class Child {
 
   @Column({ nullable: true })
   image: string;
+
+  get name() {
+    return `${this.firstName} ${this.lastName}`;
+  }
 }

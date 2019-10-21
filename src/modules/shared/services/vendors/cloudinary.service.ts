@@ -22,9 +22,12 @@ export class CloudinaryService {
       this.cloudinary.v2.uploader.destroy(publicId, resolve);
     });
   }
+  async getImageUrl(publicId: string): Promise<string> {
+    return await this.cloudinary.v2.url(publicId);
+  }
 
   async getFile(publicId: string): Promise<fs.ReadStream> {
-    const imageUrl = this.cloudinary.v2.url(publicId);
+    const imageUrl = await this.getImageUrl(publicId)
 
     return await new Promise(resolve => {
       request(imageUrl)

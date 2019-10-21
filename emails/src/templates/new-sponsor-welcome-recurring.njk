@@ -17,22 +17,23 @@
                     <table class="mt-20">
                       <tr>
                         <td>
-                          <img class="rounded-full w-96" src="https://images.unsplash.com/photo-1507120878965-54b2d3939100?ixlib=rb-0.3.5&q=80&fm=jpg&crop=top&cs=tinysrgb&w=192&h=192&fit=crop&s=99fbace66d1bfa48c9c6dc8afcac3aab" alt="Elias Ryker">
+                          <img class="rounded-full w-96" src="{{page.emailInput.childImage}}">
                         </td>
                         <td class="px-10 align-top">
                           <p class="text-lg font-semibold my-0 text-gray-800 my-8">
-                            Child Name</p>
+                            {{page.emailInput.childName}}</p>
                           <p class="text-base font-semibold my-0 my-8">
                             <span class="text-gray-800 inline-block w-128 text-right">Amount:</span>
-                            <span class="text-gray-600">${{'39.00' | float}}/month</span>
+                            <span class="text-gray-600">${{page.emailInput.amount | float}}/month ({{page.emailInput.summary}})</span>
                           </p>
                           <p class="text-base font-semibold my-0 my-8">
                             <span class="text-gray-800 inline-block w-128 text-right">Recurring:</span>
-                            <span class="text-gray-600">Monthly on the 5th</span>
+                            <span class="text-gray-600">Monthly on the
+                              {{page.emailInput.recurringPaymentDate}}</span>
                           </p>
                           <p class="text-base font-semibold my-0 my-8">
                             <span class="text-gray-800 inline-block w-128 text-right">First Payment:</span>
-                            <span class="text-gray-600">Septermber 14th, 2019</span>
+                            <span class="text-gray-600">{{page.emailInput.firstPaymentDate}}</span>
                           </p>
                         </td>
                       </tr>

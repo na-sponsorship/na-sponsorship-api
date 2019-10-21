@@ -21,16 +21,8 @@ export class MailgunService {
     });
   }
 
-  async sendEmail(
-    subject: string,
-    to: string,
-    emailInput: string,
-    emailTemplate: string,
-  ): Promise<boolean> {
-    const template = fs.readFileSync(
-      path.join(`emails/src/templates/${emailTemplate}`),
-      { encoding: 'utf-8' },
-    );
+  async sendEmail(subject: string, to: string, emailInput: any, emailTemplate: string): Promise<boolean> {
+    const template = fs.readFileSync(path.join(`emails/src/templates/${emailTemplate}`), { encoding: 'utf-8' });
 
     try {
       const html = await maizzle.render(template, {
@@ -38,10 +30,7 @@ export class MailgunService {
           config: tailwindConfig,
         },
         maizzle: {
-          config: deepmerge(
-            maizzleConfigBase,
-            deepmerge(maizzleConfigProduction, { emailInput }),
-          ),
+          config: deepmerge(maizzleConfigBase, deepmerge(maizzleConfigProduction, { emailInput })),
         },
       });
 

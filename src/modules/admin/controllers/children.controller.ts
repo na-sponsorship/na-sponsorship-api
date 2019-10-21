@@ -1,16 +1,16 @@
 import { Controller, Get, UseInterceptors, UseGuards, Post, UploadedFile, Body, Delete, Param, Put, Header, Res } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from '@nestjs/passport';
-import { get, each } from 'lodash';
+import { get } from 'lodash';
 import * as Stripe from 'stripe';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 import { Child } from '../../../entities/child.entity';
 import { ChildrenService } from '../../../modules/shared/services/children.service';
 import { CreateChildDTO } from '../dto/children/createChild.dto';
 import { StripeService } from '../../shared/services/vendors/stripe.service';
 import { CloudinaryService } from '../../shared/services/vendors/cloudinary.service';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
 import { UpdateChildDTO } from '../dto/children/updateChild.dto';
 
 @UseGuards(AuthGuard())
@@ -26,7 +26,7 @@ export class ChildrenController {
 
   @Get()
   async findAll(): Promise<Child[]> {
-    return await this.childrenService.findAll();
+    return await this.childRepository.find();
   }
 
   @Post()

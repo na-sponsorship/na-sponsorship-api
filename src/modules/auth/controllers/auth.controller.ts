@@ -13,19 +13,19 @@ import {
   Delete,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+
 import { AuthService } from '../services/auth.service';
 import { User } from '../entities/user.entity';
 import { UserService } from '../services/user.service';
 import { AddUserDTO } from '../dto/addUser.dto';
-import { InsertResult } from 'typeorm';
 import { CurrentUser } from '../decorators/currentUser.decorator';
+import { Roles } from '../decorators/roles.decorators';
+import { UserRole } from '../roles.enum';
+import { RolesGuard } from '../guards/roles.guard';
 
 @Controller('admin/auth')
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly userService: UserService,
-  ) {}
+  constructor(private readonly authService: AuthService, private readonly userService: UserService) {}
 
   @UseGuards(AuthGuard('local'))
   @Post('login')
@@ -33,14 +33,11 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), RolesGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('/register')
-  async register(@Body() addUserDto: AddUserDTO): Promise<User> {
-    const user: User = new User();
-    user.username = addUserDto.username;
-    user.password = addUserDto.password;
-
+  @Roles(UserRole.ADMIN)
+  async register(@Body() user: AddUserDTO): Promise<User> {
     // Check if this user exists
     if (!(await this.userService.userExists(user.username))) {
       return await this.userService.create(user);
@@ -55,19 +52,18 @@ export class AuthController {
     return req.user;
   }
 
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), RolesGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Get('/users')
+  @Roles(UserRole.ADMIN)
   async findAll(): Promise<User[]> {
     return await this.userService.findAll();
   }
 
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), RolesGuard)
   @Delete('/users/:id')
-  async delete(
-    @CurrentUser() currentUser: User,
-    @Param('id') deleteId: number,
-  ) {
+  @Roles(UserRole.ADMIN)
+  async delete(@CurrentUser() currentUser: User, @Param('id') deleteId: number) {
     if (currentUser.id === Number(deleteId)) {
       throw new HttpException(`Can't delete own account`, HttpStatus.FORBIDDEN);
     }

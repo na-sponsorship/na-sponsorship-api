@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
+import { UserRole } from '../roles.enum';
 
 @Entity()
 export class User {
@@ -13,6 +14,9 @@ export class User {
   @Column()
   @Exclude()
   password: string;
+
+  @Column()
+  role: UserRole;
 
   @BeforeInsert()
   async hashPassword() {

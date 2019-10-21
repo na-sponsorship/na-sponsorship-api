@@ -23,13 +23,14 @@ export class SponsorsController {
     private readonly mailerService: MailgunService,
     private readonly stripeService: StripeService,
     private readonly cloudinaryService: CloudinaryService,
+    @InjectRepository(Child) private readonly childRepository: Repository<Child>,
     @InjectRepository(Sponsor) private readonly sponsorRepository: Repository<Sponsor>,
   ) {}
 
   @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   async create(@Body() sponsor: CreateSponsorDTO) {
-    const child: Child = await this.childrenService.findOne(sponsor.childId);
+    const child: Child = await this.childRepository.findOne(sponsor.childId);
     const childPricingPlan: Stripe.plans.IPlan = await this.childrenService.getPricingPlan(child);
 
     if (child.archived) {
@@ -78,7 +79,10 @@ export class SponsorsController {
         await this.mailerService.sendEmail("Welcome to Noah's Arc", sponsor.sponsor.email, email, 'new-sponsor-welcome-recurring.njk');
 
         // Create sponsor on local db
-        this.sponsorRepository.insert({ email: sponsor.sponsor.email, stripeCustomer: stripeCustomer.id });
+        const newSponsor: Sponsor = this.sponsorRepository.create({ email: sponsor.sponsor.email, stripeCustomer: stripeCustomer.id });
+        await this.sponsorRepository.save(newSponsor);
+        child.sponsors.push(newSponsor);
+
         break;
       }
       case PAYMENT_TYPES.single: {

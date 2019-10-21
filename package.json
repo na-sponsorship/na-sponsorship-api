@@ -44,6 +44,7 @@
     "class-transformer": "^0.2.3",
     "class-validator": "^0.9.1",
     "cloudinary": "^1.14.0",
+    "dayjs": "^1.8.16",
     "deepmerge": "^4.0.0",
     "express-session": "^1.16.2",
     "lodash": "^4.17.11",

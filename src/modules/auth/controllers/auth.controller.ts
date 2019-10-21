@@ -37,7 +37,12 @@ export class AuthController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('/register')
   @Roles(UserRole.ADMIN)
-  async register(@Body() user: AddUserDTO): Promise<User> {
+  async register(@Body() userDto: AddUserDTO): Promise<User> {
+    const user: User = new User();
+    user.username = userDto.username;
+    user.password = userDto.password;
+    user.role = userDto.role;
+
     // Check if this user exists
     if (!(await this.userService.userExists(user.username))) {
       return await this.userService.create(user);

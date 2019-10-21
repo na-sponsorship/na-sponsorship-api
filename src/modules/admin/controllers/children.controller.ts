@@ -1,7 +1,7 @@
 import { Controller, Get, UseInterceptors, UseGuards, Post, UploadedFile, Body, Delete, Param, Put, Header, Res } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from '@nestjs/passport';
-import { get } from 'lodash';
+import { get, each } from 'lodash';
 import * as Stripe from 'stripe';
 
 import { Child } from '../../../entities/child.entity';
@@ -97,16 +97,22 @@ export class ChildrenController {
     // 1. Delete Child
     await this.childrenService.remove(child);
 
-    // 2. Delete Child's pricing plan
-    plans.data.forEach(async plan => {
-      await this.stripeService.deletePricingPlan(plan);
-      const subscriptions: Stripe.IList<Stripe.subscriptions.ISubscription> = await this.stripeService.findSubscriptionsByPlanId(plan.id);
+    for (const PLAN_INDEX in plans.data) {
+      if (plans.data.hasOwnProperty(PLAN_INDEX)) {
+        const plan: Stripe.plans.IPlan = plans.data[PLAN_INDEX];
+        const subscriptions: Stripe.IList<Stripe.subscriptions.ISubscription> = await this.stripeService.findSubscriptionsByPlanId(plan.id);
 
-      // 2.1 Cancel all subscriptions
-      subscriptions.data.forEach(async subscription => {
-        await this.stripeService.cancelSubscription(subscription);
-      });
-    });
+        // 2. Delete Child's pricing plan
+        await this.stripeService.deletePricingPlan(plan);
+
+        // 2.1 Cancel all product's active subscriptions
+        for (const SUBSCRIPTION_INDEX in subscriptions.data) {
+          if (plans.data.hasOwnProperty(SUBSCRIPTION_INDEX)) {
+            await this.stripeService.cancelSubscription(subscriptions.data[SUBSCRIPTION_INDEX]);
+          }
+        }
+      }
+    }
 
     /**
      * @TOOD Need to implement

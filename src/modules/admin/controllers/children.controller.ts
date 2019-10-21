@@ -1,17 +1,4 @@
-import {
-  Controller,
-  Get,
-  UseInterceptors,
-  UseGuards,
-  Post,
-  UploadedFile,
-  Body,
-  Delete,
-  Param,
-  Put,
-  Header,
-  Res,
-} from '@nestjs/common';
+import { Controller, Get, UseInterceptors, UseGuards, Post, UploadedFile, Body, Delete, Param, Put, Header, Res } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from '@nestjs/passport';
 import { get } from 'lodash';
@@ -52,9 +39,7 @@ export class ChildrenController {
     };
 
     // Create product
-    const stripeProductId: string = await this.stripeService.createProduct(
-      product,
-    );
+    const stripeProductId: string = await this.stripeService.createProduct(product);
 
     // Add Pricing plan
     await this.stripeService.addPricingPlan(3900, stripeProductId);
@@ -103,10 +88,7 @@ export class ChildrenController {
   }
 
   @Put(':id')
-  async update(
-    @Param() id,
-    @Body() updateChildDto: UpdateChildDTO,
-  ): Promise<number> {
+  async update(@Param() id, @Body() updateChildDto: UpdateChildDTO): Promise<number> {
     await this.childRepository.update(id, updateChildDto);
 
     return updateChildDto.id;
@@ -115,10 +97,7 @@ export class ChildrenController {
   @Get('/loadImage/:publicId')
   @Header('Content-Type', 'image/jpeg')
   @Header('Content-Disposition', 'attachment; filename=child.jpg')
-  async loadImage(
-    @Param('publicId') publicId: string,
-    @Res() response,
-  ): Promise<any> {
+  async loadImage(@Param('publicId') publicId: string, @Res() response): Promise<any> {
     const file = await this.cloudinaryService.getFile(publicId);
 
     file.pipe(response);

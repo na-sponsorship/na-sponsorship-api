@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Post,
-  Body,
-  SerializeOptions,
-  UseInterceptors,
-  ClassSerializerInterceptor,
-} from '@nestjs/common';
+import { Controller, Post, Body, SerializeOptions, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
 import * as Stripe from 'stripe';
 
 import { SponsorsService } from '../modules/shared/services/sponsors.service';
@@ -29,9 +22,7 @@ export class SponsorsController {
   @Post()
   async create(@Body() sponsor: CreateSponsorDTO) {
     const child: Child = await this.childrenService.findOne(sponsor.childId);
-    const childPricingPlan: Stripe.plans.IPlan = await this.childrenService.getPricingPlan(
-      child,
-    );
+    const childPricingPlan: Stripe.plans.IPlan = await this.childrenService.getPricingPlan(child);
     /**
      * @TODO Don't allow multiple customers with same email address
      * 1. Save sponsors (stripeCustomerId and email) on our end
@@ -50,9 +41,7 @@ export class SponsorsController {
           address: sponsor.sponsor.address,
           source: sponsor.payment.stripeToken,
         };
-        const stripeCustomer = await this.stripeService.createCustomer(
-          CUSTOMER,
-        );
+        const stripeCustomer = await this.stripeService.createCustomer(CUSTOMER);
         const SUBSCRIPTION: Stripe.subscriptions.ISubscriptionCreationOptions = {
           customer: stripeCustomer.id,
           items: [{ plan: childPricingPlan.id }],
@@ -71,9 +60,7 @@ export class SponsorsController {
           // Stripe doesn't take decimals, so the last two digits are always the cents
           amount: Number(sponsor.payment.singleDonationAmount + '00'),
           currency: 'USD',
-          description: `${sponsor.sponsor.firstName} ${
-            sponsor.sponsor.lastName
-          } single donation`,
+          description: `${sponsor.sponsor.firstName} ${sponsor.sponsor.lastName} single donation`,
           metadata: {
             Child: `${child.firstName} ${child.lastName}`,
           },
@@ -91,23 +78,4 @@ export class SponsorsController {
       }
     }
   }
-  // @UseInterceptors(ClassSerializerInterceptor)
-
-  // @Post('/requestCode')
-  // async requestCode(@Body() requestCodeDTO: requestCodeDTO) {
-  //   const code: string = await this.sponsorService.generateCode(requestCodeDTO);
-
-  //   await this.mailerService.sendEmail(code);
-  //   // schedule a task to remove the temp code to disable login (10 min?)
-  //   return 'requesting code';
-  // }
-
-  // @Post('/verifyCode')
-  // async verifyCode(@Body() verifyCodeDTO: VerifyCodeDTO) {
-  //   if (await this.sponsorService.maximumLoginAttemptsReached(verifyCodeDTO)) {
-  //     return 'maximum login attempts';
-  //   }
-
-  //   return await this.sponsorService.verifyCode(verifyCodeDTO);
-  // }
 }

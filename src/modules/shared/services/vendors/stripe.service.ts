@@ -19,6 +19,30 @@ export class StripeService {
     return PRODUCT.id;
   }
 
+  async deleteProduct(product: Stripe.products.IProduct): Promise<void> {
+    await this.stripe.products.del(product.id);
+  }
+
+  async deletePricingPlan(plan: Stripe.plans.IPlan): Promise<void> {
+    await this.stripe.plans.del(plan.id);
+  }
+
+  async cancelSubscription(subscription: Stripe.subscriptions.ISubscription): Promise<void> {
+    await this.stripe.subscriptions.del(subscription.id);
+  }
+
+  async findProductById(id: string): Promise<Stripe.products.IProduct> {
+    return await this.stripe.products.retrieve(id);
+  }
+
+  async findPlansByProductId(productId: string): Promise<Stripe.IList<Stripe.plans.IPlan>> {
+    return await this.stripe.plans.list({ product: productId });
+  }
+
+  async findSubscriptionsByPlanId(planId: string): Promise<Stripe.IList<Stripe.subscriptions.ISubscription>> {
+    return await this.stripe.subscriptions.list({ plan: planId });
+  }
+
   async addPricingPlan(amount: number, productId: string): Promise<void> {
     const PLAN: Stripe.plans.IPlanCreationOptions = {
       currency: 'USD',

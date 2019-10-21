@@ -87,6 +87,41 @@ export class ChildrenController {
     await this.childrenService.save(child);
   }
 
+  @Delete(':id')
+  async delete(@Param('id') id) {
+    const child: Child = await this.childrenService.findOne(id);
+
+    const product: Stripe.products.IProduct = await this.stripeService.findProductById(child.stripeProduct);
+    const plans: Stripe.IList<Stripe.plans.IPlan> = await this.stripeService.findPlansByProductId(child.stripeProduct);
+
+    // 1. Delete Child
+    await this.childrenService.remove(child);
+
+    // 2. Delete Child's pricing plan
+    plans.data.forEach(async plan => {
+      await this.stripeService.deletePricingPlan(plan);
+      const subscriptions: Stripe.IList<Stripe.subscriptions.ISubscription> = await this.stripeService.findSubscriptionsByPlanId(plan.id);
+
+      // 2.1 Cancel all subscriptions
+      subscriptions.data.forEach(async subscription => {
+        await this.stripeService.cancelSubscription(subscription);
+      });
+    });
+
+    /**
+     * @TOOD Need to implement
+     */
+    // 3. Notify affected sponsors that their sponsorship has been terminated
+
+    // 4. Delete product
+    await this.stripeService.deleteProduct(product);
+
+    // 5. Remove Child's image from cloudinary
+    if (child.image) {
+      await this.cloudinaryService.destroy(child.image);
+    }
+  }
+
   @Put(':id')
   async update(@Param() id, @Body() updateChildDto: UpdateChildDTO): Promise<number> {
     await this.childRepository.update(id, updateChildDto);

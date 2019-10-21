@@ -1,6 +1,4 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import * as path from 'path';
 
 import { RawBodyParserMiddleware } from './middleware/body-parser.middleware';
 import { ChildrenController } from './controllers/children.controller';

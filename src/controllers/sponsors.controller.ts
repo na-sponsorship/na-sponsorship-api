@@ -1,18 +1,18 @@
-import { Controller, Post, Body, SerializeOptions, UseInterceptors, ClassSerializerInterceptor, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, UseInterceptors, ClassSerializerInterceptor, HttpException, HttpStatus } from '@nestjs/common';
 import * as Stripe from 'stripe';
 import * as dayjs from 'dayjs';
 import * as advancedFormat from 'dayjs/plugin/advancedFormat';
-import { SponsorsService } from '../modules/shared/services/sponsors.service';
+
 import { MailgunService } from '../modules/shared/services/vendors/mailgun.service';
 import { StripeService } from '../modules/shared/services/vendors/stripe.service';
 import { CreateSponsorDTO } from '../dto/sponsors/createSponsor.dto';
 import { ChildrenService } from '../modules/shared/services/children.service';
 import { Child } from '../entities/child.entity';
-import { PAYMENT_TYPES } from 'src/dto/sponsors/payment.dto';
-import { CloudinaryService } from 'src/modules/shared/services/vendors/cloudinary.service';
-import { INewSubscriptionEmail } from 'src/interfaces/new-subscription-email.interface';
+import { PAYMENT_TYPES } from '../dto/sponsors/payment.dto';
+import { CloudinaryService } from '../modules/shared/services/vendors/cloudinary.service';
+import { INewSubscriptionEmail } from '../interfaces/new-subscription-email.interface';
 import { Repository } from 'typeorm';
-import { Sponsor } from 'src/entities/sponsor.entity';
+import { Sponsor } from '../entities/sponsor.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
 dayjs.extend(advancedFormat);

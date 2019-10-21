@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { Sponsor } from './sponsor.entity';
 
 @Entity()
 export class Child {
@@ -41,6 +42,10 @@ export class Child {
 
   @Column({ nullable: true })
   image: string;
+
+  @ManyToMany(type => Sponsor, sponsor => sponsor.children, { eager: true })
+  @JoinTable()
+  sponsors: Sponsor[];
 
   get name() {
     return `${this.firstName} ${this.lastName}`;

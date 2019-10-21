@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
+import { Child } from './child.entity';
 
 @Entity()
 export class Sponsor {
@@ -9,8 +10,17 @@ export class Sponsor {
   email: string;
 
   @Column({ nullable: true })
+  firstName: string;
+
+  @Column({ nullable: true })
+  lastName: string;
+
+  @Column({ nullable: true })
   loginAttempts: number;
 
   @Column({ nullable: true })
   stripeCustomer: string;
+
+  @ManyToMany(type => Child, child => child.sponsors)
+  children: Child[];
 }

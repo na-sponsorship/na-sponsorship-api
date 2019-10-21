@@ -7,6 +7,7 @@ import { Sponsor } from '../../entities/sponsor.entity';
 import { AuthModule } from '../auth/auth.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { CloudinaryStorage } from './storage-providers/cloudinary.storage';
+import { SponsorsController } from './controllers/sponsors.controller';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { CloudinaryStorage } from './storage-providers/cloudinary.storage';
     AuthModule,
     TypeOrmModule.forFeature([Child, Sponsor]),
   ],
-  controllers: [ChildrenController],
+  controllers: [ChildrenController, SponsorsController],
   providers: [],
 })
 export class AdminModule {}

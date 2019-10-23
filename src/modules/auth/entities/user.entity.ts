@@ -12,12 +12,22 @@ export class User {
   username: string;
 
   @Column()
+  firstName: string;
+
+  @Column()
+  lastName: string;
+
+  @Column()
   @Exclude()
   password: string;
 
   @Column()
   role: UserRole;
 
+  get name() {
+    return `${this.firstName} ${this.lastName}`;
+  }
+  
   @BeforeInsert()
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 10);

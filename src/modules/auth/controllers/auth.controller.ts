@@ -41,6 +41,8 @@ export class AuthController {
     const user: User = new User();
     user.username = userDto.username;
     user.password = userDto.password;
+    user.firstName = userDto.firstName;
+    user.lastName = userDto.lastName;
     user.role = userDto.role;
 
     // Check if this user exists

@@ -26,6 +26,7 @@
     "migrations:run": "yarn run typeorm migration:run -f migrations.config.js",
     "migrations:revert": "yarn run typeorm migration:revert -f migrations.config.js",
     "migrations:show": "yarn run typeorm migration:show -f migrations.config.js",
+    "schema:drop": "yarn run typeorm schema:drop -f migrations.config.js",
     "schema:sync": "yarn run typeorm schema:sync -f migrations.config.js"
   },
   "dependencies": {

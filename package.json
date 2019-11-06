@@ -22,12 +22,10 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "migration:generate": "yarn run typeorm migration:generate -d db/migrate",
     "migration:create": "yarn run typeorm migration:create -d db/migrate",
-    "migrations:run": "yarn run typeorm migration:run",
-    "migrations:revert": "yarn run typeorm migration:revert",
-    "migrations:show": "yarn run typeorm migration:show",
-    "schema:drop": "yarn run typeorm schema:drop",
+    "migrations:run": "yarn run typeorm migration:run -f migrations.config.js",
+    "migrations:revert": "yarn run typeorm migration:revert -f migrations.config.js",
+    "migrations:show": "yarn run typeorm migration:show -f migrations.config.js",
     "schema:sync": "yarn run typeorm schema:sync"
   },
   "dependencies": {

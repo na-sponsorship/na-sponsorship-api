@@ -11,7 +11,8 @@
       "port": 9229,
       "restart": true,
       "stopOnEntry": false,
-      "smartStep": true
+      "smartStep": true,
+      "skipFiles": ["async_hooks.js", "inspector_async_hook.js"]
     }
   ]
 }

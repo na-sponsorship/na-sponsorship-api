@@ -21,7 +21,7 @@ import { User } from '../auth/entities/user.entity';
         url: process.env.DATABASE_URL,
         entities: [Child, Sponsor, User],
         migrations: [process.env.TYPEORM_MIGRATIONS],
-        migrationsRun: process.env.TYPEORM_DEBUG as any,
+        migrationsRun: true,
       }),
     }),
     TypeOrmModule.forFeature([Child, Sponsor]),

@@ -5,7 +5,7 @@ export class DBInit1524330356000 implements MigrationInterface {
     const childTable: Table = new Table({
       name: 'child',
       columns: [
-        new TableColumn({ name: 'id', type: 'int4', isNullable: false, isPrimary: true }),
+        new TableColumn({ name: 'id', type: 'int4', isNullable: false, isGenerated: true, isPrimary: true }),
         new TableColumn({ name: 'firstName', type: 'varchar', isNullable: false }),
         new TableColumn({ name: 'lastName', type: 'varchar', isNullable: false }),
         new TableColumn({ name: 'dateOfBirth', type: 'date', isNullable: true }),
@@ -22,7 +22,7 @@ export class DBInit1524330356000 implements MigrationInterface {
     const sponsorTable: Table = new Table({
       name: 'sponsor',
       columns: [
-        new TableColumn({ name: 'id', type: 'int4', isNullable: false, isPrimary: true }),
+        new TableColumn({ name: 'id', type: 'int4', isNullable: false, isGenerated: true, isPrimary: true }),
         new TableColumn({ name: 'email', type: 'varchar', isNullable: true }),
         new TableColumn({ name: 'temporaryCode', type: 'varchar', isNullable: true }),
         new TableColumn({ name: 'passcodeGeneratedDate', type: 'date', isNullable: true }),
@@ -34,7 +34,7 @@ export class DBInit1524330356000 implements MigrationInterface {
     const userTable: Table = new Table({
       name: 'user',
       columns: [
-        new TableColumn({ name: 'id', type: 'int4', isNullable: false, isPrimary: true }),
+        new TableColumn({ name: 'id', type: 'int4', isNullable: false, isGenerated: true, isPrimary: true }),
         new TableColumn({ name: 'username', type: 'varchar', isNullable: false }),
         new TableColumn({ name: 'password', type: 'varchar', isNullable: false }),
       ],

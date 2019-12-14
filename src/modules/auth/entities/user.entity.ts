@@ -18,6 +18,9 @@ export class User {
   lastName: string;
 
   @Column()
+  isEnabled: boolean;
+
+  @Column()
   @Exclude()
   password: string;
 

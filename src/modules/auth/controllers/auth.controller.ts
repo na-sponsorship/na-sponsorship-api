@@ -44,7 +44,8 @@ export class AuthController {
     user.firstName = userDto.firstName;
     user.lastName = userDto.lastName;
     user.role = userDto.role;
-
+    user.isEnabled = true;
+    
     // Check if this user exists
     if (!(await this.userService.userExists(user.username))) {
       return await this.userService.create(user);

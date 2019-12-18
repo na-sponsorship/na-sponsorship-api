@@ -16,9 +16,6 @@ export class Sponsor {
   lastName: string;
 
   @Column({ nullable: true })
-  loginAttempts: number;
-
-  @Column({ nullable: true })
   stripeCustomer: string;
 
   @ManyToMany(type => Child, child => child.sponsors)

@@ -25,6 +25,10 @@ export class StripeService {
     return await this.createCustomer(customer);
   }
 
+  async addPaymentSource(customer: Stripe.customers.ICustomer, token: string): Promise<Stripe.IStripeSource> {
+    return await this.stripe.customers.createSource(customer.id, { source: token });
+  }
+
   async createProduct(product: Stripe.products.IProductCreationOptions): Promise<string> {
     const PRODUCT = await this.stripe.products.create(product);
 

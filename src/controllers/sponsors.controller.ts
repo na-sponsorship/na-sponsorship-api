@@ -47,14 +47,17 @@ export class SponsorsController {
           name: `${sponsor.sponsor.firstName} ${sponsor.sponsor.lastName}`,
           email: sponsor.sponsor.email,
           address: sponsor.sponsor.address,
-          source: sponsor.payment.stripeToken,
         };
         const stripeCustomer = await this.stripeService.createOrRetrieveCustomer(CUSTOMER);
+
+        const paymentSource = await this.stripeService.addPaymentSource(stripeCustomer, sponsor.payment.stripeToken);
 
         const SUBSCRIPTION: Stripe.subscriptions.ISubscriptionCreationOptions = {
           customer: stripeCustomer.id,
           items: [{ plan: childPricingPlan.id }],
+          default_source: paymentSource.id,
         };
+
         if (sponsor.payment.extraAmount) {
           SUBSCRIPTION.items.push({ plan: process.env.NA_GENERAL_FUND_PLAN });
         }

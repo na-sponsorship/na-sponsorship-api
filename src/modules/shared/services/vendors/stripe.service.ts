@@ -13,6 +13,18 @@ export class StripeService {
     return await this.stripe.customers.create(customer);
   }
 
+  async createOrRetrieveCustomer(customer: Stripe.customers.ICustomerCreationOptions): Promise<Stripe.customers.ICustomer> {
+    const existingCustomer: Stripe.customers.ICustomer = await (await this.stripe.customers.list({ limit: 1, email: customer.email })).data[0];
+
+    // If same email and name, return existing customer
+    if (existingCustomer && existingCustomer.name === customer.name) {
+      return existingCustomer;
+    }
+
+    // Create a new customer
+    return await this.createCustomer(customer);
+  }
+
   async createProduct(product: Stripe.products.IProductCreationOptions): Promise<string> {
     const PRODUCT = await this.stripe.products.create(product);
 

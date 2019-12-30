@@ -37,12 +37,6 @@ export class SponsorsController {
       throw new HttpException('Sponsorship not allowed', HttpStatus.FORBIDDEN);
     }
 
-    /**
-     * @TODO Don't allow multiple customers with same email address
-     * 1. Save sponsors (stripeCustomerId and email) on our end
-     * 2. In future when we roll acounts, its easier to manage children and payment info
-     */
-
     switch (sponsor.payment.type) {
       case PAYMENT_TYPES.recurring: {
         /**
@@ -55,7 +49,8 @@ export class SponsorsController {
           address: sponsor.sponsor.address,
           source: sponsor.payment.stripeToken,
         };
-        const stripeCustomer = await this.stripeService.createCustomer(CUSTOMER);
+        const stripeCustomer = await this.stripeService.createOrRetrieveCustomer(CUSTOMER);
+
         const SUBSCRIPTION: Stripe.subscriptions.ISubscriptionCreationOptions = {
           customer: stripeCustomer.id,
           items: [{ plan: childPricingPlan.id }],
@@ -78,9 +73,22 @@ export class SponsorsController {
 
         await this.mailerService.sendEmail("Welcome to Noah's Arc", sponsor.sponsor.email, email, 'new-sponsor-welcome-recurring.njk');
 
-        // Create sponsor on local db
-        const newSponsor: Sponsor = this.sponsorRepository.create({ email: sponsor.sponsor.email, stripeCustomer: stripeCustomer.id });
-        await this.sponsorRepository.save(newSponsor);
+        // Create sponsor on local db if not exisiting
+        let newSponsor: Sponsor = await this.sponsorRepository.findOne({
+          where: { email: sponsor.sponsor.email, firstName: sponsor.sponsor.firstName, lastName: sponsor.sponsor.lastName },
+        });
+
+        if (!newSponsor) {
+          newSponsor = this.sponsorRepository.create({
+            email: sponsor.sponsor.email,
+            stripeCustomer: stripeCustomer.id,
+            firstName: sponsor.sponsor.firstName,
+            lastName: sponsor.sponsor.lastName,
+          });
+
+          await this.sponsorRepository.save(newSponsor);
+        }
+
         child.sponsors.push(newSponsor);
 
         break;

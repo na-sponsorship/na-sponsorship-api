@@ -45,6 +45,7 @@ export class Child {
 
   @ManyToMany(type => Sponsor, sponsor => sponsor.children, { eager: true })
   @JoinTable()
+  @Exclude()
   sponsors: Sponsor[];
 
   get name() {

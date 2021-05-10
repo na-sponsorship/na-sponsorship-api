@@ -46,7 +46,7 @@
     "dayjs": "^1.8.16",
     "deepmerge": "^4.0.0",
     "express-session": "^1.16.2",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "mailgun-js": "^0.22.0",
     "multer-storage-cloudinary": "^2.2.1",
     "nestjs-typeorm-paginate": "^0.1.8",

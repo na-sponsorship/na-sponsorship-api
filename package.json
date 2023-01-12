@@ -41,7 +41,7 @@
     "@sentry/node": "5.3.0",
     "bcrypt": "^3.0.6",
     "class-transformer": "^0.2.3",
-    "class-validator": "^0.9.1",
+    "class-validator": "^0.14.0",
     "cloudinary": "^1.14.0",
     "dayjs": "^1.8.16",
     "deepmerge": "^4.0.0",
